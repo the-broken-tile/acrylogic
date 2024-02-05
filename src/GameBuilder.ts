@@ -7,14 +7,14 @@ import Color from './Models/Color';
 import Direction from './Models/Direction';
 
 type CellDef = {
-    color: Color,
+    color: string,
     number: number,
 }
 type ClueDef = {
     x: number,
     y: number,
     direction: Direction,
-    color?: Color,
+    color?: string,
     number?: number,
     not?: boolean,
 }
@@ -22,6 +22,19 @@ type GameDef = {
     grid: Array<Array<CellDef>>,
     clues: Array<ClueDef>
 }
+
+type ColorMapType = Record<string, Color>
+const ColorMap: ColorMapType = {
+    white: Color.White,
+    blue: Color.Blue,
+    red: Color.Red,
+    yellow: Color.Yellow,
+    purple: Color.Purple,
+    orange: Color.Orange,
+    green: Color.Green,
+    black: Color.Black,
+}
+
 class GameBuilder
 {
     public build(gameDef: GameDef): Game {
@@ -35,13 +48,13 @@ class GameBuilder
         row.map((cell, x) => this.mapCell(cell, y, x));
 
     private mapCell = (cell: CellDef, y: number, x: number): Cell =>
-        new Cell(cell.color, cell.number, new Coordinate(x, y));
+        new Cell(ColorMap[cell.color], cell.number, new Coordinate(x, y));
 
     private buildClues = (clues: Array<ClueDef>): Array<Clue> =>
         clues.map(clue => this.buildClue(clue));
 
     private buildClue = (clue: ClueDef): Clue =>
-        new Clue(new Coordinate(clue.x, clue.y), clue.direction, clue.color, clue.number);
+        new Clue(new Coordinate(clue.x, clue.y), clue.direction, clue.color ? ColorMap[clue.color] : undefined, clue.number);
 }
 
 export default GameBuilder
