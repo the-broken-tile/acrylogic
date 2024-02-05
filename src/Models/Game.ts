@@ -20,7 +20,7 @@ class Game {
     }
 
     getCell(coordinate: Coordinate): Cell {
-        return this._grid.cells[coordinate.y][coordinate.x]
+        return this._grid.getCell(coordinate)
     }
 
     get clues(): Array<Clue> {
