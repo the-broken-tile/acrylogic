@@ -12,7 +12,7 @@ dialog {
 }
 
 .game {
-    background-color: lightblue;
+    background-color: #7BB1EB;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px;
@@ -63,5 +63,8 @@ dialog {
     display: inline-block;
     transform: rotate(-90deg);
     margin-left: -50%;
-    /*margin-top: -50%;*/
+}
+#color-select, #number-input {
+    display: inline-block;
+    width: 100%;
 }
