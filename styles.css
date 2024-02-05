@@ -1,0 +1,67 @@
+::backdrop {
+    background-image: linear-gradient(
+        90deg,
+        black,
+        gray
+    );
+    opacity: 0.75;
+}
+dialog {
+    position: absolute;
+    top: 0;
+}
+
+.game {
+    background-color: lightblue;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px;
+    height: 100vh;
+}
+.row {
+    display: grid;
+    grid-template-columns: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px;
+}
+.vertical-border, .horizontal-border {
+    background-color: lightgray;
+}
+
+.color-0 {
+    background-color: white;
+}
+.color-1 {
+    background-color: blue;
+}
+.color-2 {
+    background-color: red;
+}
+.color-4 {
+    background-color: yellow;
+}
+.color-3 {
+    background-color: purple;
+}
+.color-6 {
+    background-color: orange;
+}
+.color-5 {
+    background-color: green;
+}
+.color-Infinity {
+    background-color: black;
+    color: white;
+}
+.vertical-border, .horizontal-border, .cell {
+    display: grid;
+    align-items: center;
+    text-align: center;
+}
+.cell {
+    font-size: 300%;
+}
+.vertical-border .clue {
+    display: inline-block;
+    transform: rotate(-90deg);
+    margin-left: -50%;
+    /*margin-top: -50%;*/
+}

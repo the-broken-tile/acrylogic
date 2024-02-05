@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es6",
+    "outDir": "./dist",
+    "strict": true,
+    "lib": [
+      "decorators",
+      "dom",
+      "es5",
+      "scripthost"
+    ]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
