@@ -13,10 +13,17 @@ type CellDef = {
 type ClueDef = {
     x: number,
     y: number,
-    direction: Direction,
+    direction: string,
     color?: string,
     number?: number,
     not?: boolean,
+}
+type DirectionMapType = Record<string, Direction>
+const DirectionMap: DirectionMapType = {
+    up: Direction.Up,
+    down: Direction.Down,
+    left: Direction.Left,
+    right: Direction.Right,
 }
 type GameDef = {
     grid: Array<Array<CellDef>>,
@@ -54,7 +61,7 @@ class GameBuilder
         clues.map(clue => this.buildClue(clue));
 
     private buildClue = (clue: ClueDef): Clue =>
-        new Clue(new Coordinate(clue.x, clue.y), clue.direction, clue.color ? ColorMap[clue.color] : undefined, clue.number);
+        new Clue(new Coordinate(clue.x, clue.y), DirectionMap[clue.direction], clue.color ? ColorMap[clue.color] : undefined, clue.number);
 }
 
 export default GameBuilder
