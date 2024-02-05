@@ -27,6 +27,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: 'api', to: 'api' },
+                { from: 'styles.css', to: '.' },
             ],
         }),
     ],
