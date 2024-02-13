@@ -61,7 +61,7 @@ class GameBuilder
         clues.map(clue => this.buildClue(clue));
 
     private buildClue = (clue: ClueDef): Clue =>
-        new Clue(new Coordinate(clue.x, clue.y), DirectionMap[clue.direction], clue.color ? ColorMap[clue.color] : undefined, clue.number);
+        new Clue(new Coordinate(clue.x, clue.y), DirectionMap[clue.direction], clue.color ? ColorMap[clue.color] : undefined, clue.number, clue.not);
 }
 
 export default GameBuilder

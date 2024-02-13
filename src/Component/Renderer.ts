@@ -63,11 +63,9 @@ class Renderer {
             return ''
         }
 
-        if (clue.color !== undefined) {
-            return `<span class="clue">${ColorNames[clue.color]}</span>`
-        }
+        const text = clue.color !== undefined ? ColorNames[clue.color] : `${clue.number}`;
 
-        return `<span class="clue">${clue.number}</span>`
+        return `<span class="clue${clue.not === true ? ' not' : ''}">${text}</span>`
     }
 
     private renderClueClassName(clue: Clue | undefined): string {
@@ -86,7 +84,7 @@ class Renderer {
 
         return `
             <div class="horizontal-border${this.renderClueClassName(clue)}">
-                <span class="clue">${this.renderClueValue(clue)}</span>
+                ${this.renderClueValue(clue)}
             </div>
             <div></div>`
     }

@@ -177,10 +177,22 @@ dialog {
 .cell {
     font-size: 300%;
 }
+.clue {
+    font-size: 1.2em;
+}
 .vertical-border .clue {
     display: inline-block;
     transform: rotate(-90deg);
     margin-left: -50%;
+}
+.clue.not {
+    /*text-decoration: line-through;*/
+    text-decoration-line: line-through;
+    text-decoration-thickness: 5px;
+    text-decoration-color: red;
+}
+.color-2 .clue.not {
+    text-decoration-color: black;
 }
 #color-select, #number-input {
     display: inline-block;
