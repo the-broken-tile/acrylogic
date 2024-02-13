@@ -1,4 +1,8 @@
 {
+    "width": 4,
+    "height": 4,
+    "colors": ["red", "white", "yellow", "blue"],
+    "numbers": [1, 2, 3, 4],
     "grid": [
         [
             {
