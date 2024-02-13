@@ -1,0 +1,186 @@
+{
+    "grid": [
+        [
+            {
+                "color": "yellow",
+                "number": 4
+            },
+            {
+                "color": "blue",
+                "number": 2
+            },
+            {
+                "color": "yellow",
+                "number": 2
+            },
+            {
+                "color": "blue",
+                "number": 3
+            }
+        ],
+        [
+            {
+                "color": "red",
+                "number": 3
+            },
+            {
+                "color": "red",
+                "number": 4
+            },
+            {
+                "color": "blue",
+                "number": 4
+            },
+            {
+                "color": "white",
+                "number": 4
+            }
+        ],
+        [
+            {
+                "color": "white",
+                "number": 2
+            },
+            {
+                "color": "blue",
+                "number": 1
+            },
+            {
+                "color": "white",
+                "number": 3
+            },
+            {
+                "color": "red",
+                "number": 1
+            }
+        ],
+        [
+            {
+                "color": "yellow",
+                "number": 1
+            },
+            {
+                "color": "white",
+                "number": 1
+            },
+            {
+                "color": "yellow",
+                "number": 3
+            },
+            {
+                "color": "red",
+                "number": 2
+            }
+        ]
+    ],
+    "clues": [
+        {
+            "x": 0,
+            "y": 0,
+            "direction": "left",
+            "number": 6
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "direction": "down",
+            "color": "purple"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "direction": "down",
+            "color": "green"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "direction": "down",
+            "color": "blue"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "direction": "down",
+            "number": 5
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "direction": "left",
+            "number": 8
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "direction": "down",
+            "number": 5
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "direction": "left",
+            "number": 8
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "direction": "down",
+            "color": "blue"
+        },
+        {
+            "x": 0,
+            "y": 2,
+            "direction": "down",
+            "color": "yellow"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "direction": "left",
+            "color": "blue"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "direction": "down",
+            "color": "blue"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "direction": "left",
+            "number": 4
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "direction": "down",
+            "number": 6
+        },
+        {
+            "x": 3,
+            "y": 2,
+            "direction": "down",
+            "number": 3
+        },
+        {
+            "x": 0,
+            "y": 3,
+            "direction": "left",
+            "number": 2
+        },
+        {
+            "x": 1,
+            "y": 3,
+            "direction": "left",
+            "number": 4
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "direction": "left",
+            "color": "orange"
+        }
+    ]
+}

@@ -29,8 +29,10 @@ class App {
 
         this.gameElement = this.root.querySelector('#game') as HTMLDivElement;
         this.dialog = new Dialog(this.root, this.root.querySelector('#dialog') as HTMLDialogElement)
-        this.menu = new Menu(this.root.querySelector('#menu') as HTMLMenuElement)
+        this.menu = new Menu(this.root.querySelector('#menu') as HTMLMenuElement, this.store, this.handleLevelChange.bind(this))
+
         this.root.addEventListener('click', this.handleCellClick.bind(this))
+
     }
 
     private handleCellClick(event: Event): void {
@@ -57,6 +59,16 @@ class App {
             this.game?.getGuess(coordinate),
             this.handleOk.bind(this)
         )
+    }
+
+    private async handleLevelChange(level: number): Promise<void>
+    {
+        await this.newGame(level).catch(() => {
+            alert('No such level.')
+        })
+
+        this.store.setId(level)
+        this.menu.close()
     }
 
     private handleOk(guess: GenericGuess): void {
