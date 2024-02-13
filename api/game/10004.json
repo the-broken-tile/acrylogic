@@ -1,0 +1,200 @@
+{
+    "width": 4,
+    "height": 4,
+    "colors": [
+        "blue",
+        "yellow",
+        "red",
+        "white"
+    ],
+    "numbers": {
+        "0": 3,
+        "1": 1,
+        "4": 4,
+        "8": 2
+    },
+    "grid": [
+        [
+            {
+                "color": "blue",
+                "number": 3
+            },
+            {
+                "color": "blue",
+                "number": 1
+            },
+            {
+                "color": "yellow",
+                "number": 3
+            },
+            {
+                "color": "red",
+                "number": 3
+            }
+        ],
+        [
+            {
+                "color": "yellow",
+                "number": 4
+            },
+            {
+                "color": "red",
+                "number": 1
+            },
+            {
+                "color": "yellow",
+                "number": 1
+            },
+            {
+                "color": "white",
+                "number": 3
+            }
+        ],
+        [
+            {
+                "color": "blue",
+                "number": 2
+            },
+            {
+                "color": "white",
+                "number": 2
+            },
+            {
+                "color": "blue",
+                "number": 4
+            },
+            {
+                "color": "red",
+                "number": 2
+            }
+        ],
+        [
+            {
+                "color": "white",
+                "number": 1
+            },
+            {
+                "color": "red",
+                "number": 4
+            },
+            {
+                "color": "white",
+                "number": 4
+            },
+            {
+                "color": "yellow",
+                "number": 2
+            }
+        ]
+    ],
+    "clues": [
+        {
+            "x": 0,
+            "y": 0,
+            "direction": "right",
+            "color": "blue"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "direction": "down",
+            "color": "green"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "direction": "right",
+            "number": 4
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "direction": "down",
+            "color": "purple"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "direction": "down",
+            "number": 4
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "direction": "down",
+            "color": "red"
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "direction": "right",
+            "number": 2
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "direction": "right",
+            "color": "yellow"
+        },
+        {
+            "x": 3,
+            "y": 1,
+            "direction": "down",
+            "color": "red"
+        },
+        {
+            "x": 0,
+            "y": 2,
+            "direction": "right",
+            "number": 4
+        },
+        {
+            "x": 0,
+            "y": 2,
+            "direction": "down",
+            "color": "blue"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "direction": "right",
+            "color": "blue"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "direction": "down",
+            "color": "red"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "direction": "right",
+            "number": 6
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "direction": "down",
+            "number": 8
+        },
+        {
+            "x": 0,
+            "y": 3,
+            "direction": "right",
+            "number": 5
+        },
+        {
+            "x": 1,
+            "y": 3,
+            "direction": "right",
+            "color": "red"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "direction": "right",
+            "number": 6
+        }
+    ]
+}
