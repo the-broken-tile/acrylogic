@@ -5,9 +5,3 @@ npx webpack
 ```
 
 
-To deploy
-
-```shell
-npm run deploy
-```
-
