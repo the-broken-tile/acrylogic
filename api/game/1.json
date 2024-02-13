@@ -2,7 +2,7 @@
   "grid": [
     [
       {"color": "yellow", "number": 1},
-      {"color": "white", "number": 1},
+      {"color": "blue", "number": 1},
       {"color": "red", "number": 4},
       {"color": "yellow", "number": 3}
     ], [
@@ -12,9 +12,9 @@
       {"color": "white", "number": 2}
     ], [
       {"color": "red", "number": 2},
-      {"color": "red", "number": 3},
-      {"color": "red", "number": 2},
-      {"color": "red", "number": 4}
+      {"color": "blue", "number": 3},
+      {"color": "blue", "number": 2},
+      {"color": "blue", "number": 4}
     ], [
       {"color": "white", "number": 4},
       {"color": "white", "number": 3},
