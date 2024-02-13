@@ -5,40 +5,34 @@ import Direction from '../Models/Direction'
 import Clue from '../Models/Clue'
 
 class Renderer {
-    game: Game
-
-    constructor(game: Game) {
-        this.game = game
-    }
-
-    render(): string {
-        return `<div class="game ${this.game.height}-rows ${this.game.width}-cols">
+    render(root: HTMLDivElement, game: Game): void {
+        root.innerHTML = `<div class="game ${game.height}-rows ${game.width}-cols">
             <div class="horizontal-border"></div>
-            ${this.game.grid.cells.map(row => this.renderRow(row), this).join('')}
+            ${game.grid.cells.map(row => this.renderRow(row, game), this).join('')}
         </div>`
     }
 
-    private renderRow(row: Array<Cell>): string {
+    private renderRow(row: Array<Cell>, game: Game): string {
         return `
             <div class="row">
                 <div class="vertical-border"></div>
-                ${row.map(cell => this.renderCell(cell), this).join('')}
+                ${row.map(cell => this.renderCell(cell, game), this).join('')}
             </div>
             <div class="row">
-                ${this.renderHorizontalClues(row)}
+                ${this.renderHorizontalClues(row, game)}
             </div>
         `
     }
 
-    private renderCell(cell: Cell): string {
-        const clue: Clue | undefined = this.game.getClue(cell.coordinate, Direction.Right)
+    private renderCell(cell: Cell, game: Game): string {
+        const clue: Clue | undefined = game.getClue(cell.coordinate, Direction.Right)
 
         return `
-            <div class="cell${this.renderCellClassName(cell)}"
+            <div class="cell${this.renderCellClassName(cell, game)}"
             data-x="${cell.coordinate.x}"
             data-y="${cell.coordinate.y}"
             >
-                ${this.renderCellValue(cell)}
+                ${this.renderCellValue(cell, game)}
             </div>
             <div class="vertical-border${this.renderClueClassName(clue)}">
                 ${this.renderClueValue(clue)}
@@ -46,8 +40,8 @@ class Renderer {
         `
     }
 
-    private renderCellValue(cell: Cell): string {
-        const guess = this.game.getGuess(cell.coordinate)
+    private renderCellValue(cell: Cell, game: Game): string {
+        const guess = game.getGuess(cell.coordinate)
         if (guess !== undefined && guess.number !== undefined) {
             return `${guess.number}`
         }
@@ -55,8 +49,8 @@ class Renderer {
         return ''
     }
 
-    private renderCellClassName(cell: Cell): string {
-        const guess = this.game.getGuess(cell.coordinate)
+    private renderCellClassName(cell: Cell, game: Game): string {
+        const guess = game.getGuess(cell.coordinate)
         if (guess !== undefined) {
             return ` color-${guess.color}`
         }
@@ -83,12 +77,12 @@ class Renderer {
         return ` color-${clue.color}`
     }
 
-    private renderHorizontalClues(row: Array<Cell>): string {
-        return `<div></div>${row.map(cell => this.renderHorizontalClue(cell)).join('')}`
+    private renderHorizontalClues(row: Array<Cell>, game: Game): string {
+        return `<div></div>${row.map(cell => this.renderHorizontalClue(cell, game)).join('')}`
     }
 
-    private renderHorizontalClue(cell: Cell): string {
-        const clue: Clue | undefined = this.game.getClue(cell.coordinate, Direction.Down)
+    private renderHorizontalClue(cell: Cell, game: Game): string {
+        const clue: Clue | undefined = game.getClue(cell.coordinate, Direction.Down)
 
         return `
             <div class="horizontal-border${this.renderClueClassName(clue)}">

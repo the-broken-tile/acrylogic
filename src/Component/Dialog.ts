@@ -25,37 +25,31 @@ const NUMBER_MAP: NumberMap = {
 }
 
 class Dialog {
-    private readonly el: HTMLDialogElement
     private readonly ok: HTMLButtonElement
     private readonly cancel: HTMLButtonElement
     private readonly colorSelect: HTMLSelectElement;
     private readonly numberInput: HTMLInputElement;
     private onOk: Function = (guess: GenericGuess) => {}
-    private currentGuess: GenericGuess|undefined
 
-    constructor(private document: Document) {
-        this.el = document.createElement('dialog')
-        document.body.appendChild(this.el)
+    constructor(private root: HTMLElement, private readonly el: HTMLDialogElement) {
         this.el.innerHTML = this.render()
 
-        this.ok = document.getElementById('dialog-ok') as HTMLButtonElement
-        this.ok.addEventListener('click', this.handleOk.bind(this))
-        this.cancel = document.getElementById('dialog-cancel') as HTMLButtonElement
-        this.cancel.addEventListener('click', this.handleCancel.bind(this))
-        this.colorSelect = document.getElementById('color-select') as HTMLSelectElement
-        this.numberInput = document.getElementById('number-input') as HTMLInputElement
-        document.body.addEventListener('keyup', this.handleKeyboardEvent.bind(this))
-        // document.addEventListener('click', this.handleCellClick.bind(this))
+        this.ok = this.el.querySelector('#dialog-ok') as HTMLButtonElement;
+        this.cancel = this.el.querySelector('#dialog-cancel') as HTMLButtonElement
+        this.colorSelect = this.el.querySelector('#color-select') as HTMLSelectElement
+        this.numberInput = this.el.querySelector('#number-input') as HTMLInputElement
+
+        this.registerEvents();
     }
 
     private handleOk(): void {
         this.el.close()
         this.onOk(this.createGuess())
     }
+
     public open(guess: Guess|undefined, callable: (guess: GenericGuess) => void): void {
         this.el.showModal()
         this.onOk = callable;
-        this.currentGuess = guess
 
         this.resetForm()
         if (guess !== undefined) {
@@ -86,7 +80,10 @@ class Dialog {
         <div>
         <input id="number-input" type="number" min="${MIN_NUMBER}" max="${MAX_NUMBER}" step="1">
         </div>
-        <div><button id="dialog-ok">Ok</button><button id="dialog-cancel">Cancel</button></div>`
+        <div>
+            <button id="dialog-ok">Ok</button>
+            <button id="dialog-cancel">Cancel</button>
+        </div>`
     }
 
     public isOpen(): boolean {
@@ -162,6 +159,12 @@ class Dialog {
     private resetForm(): void {
         this.colorSelect.selectedIndex = -1
         this.numberInput.value = ''
+    }
+
+    private registerEvents(): void {
+        this.ok.addEventListener('click', this.handleOk.bind(this))
+        this.cancel.addEventListener('click', this.handleCancel.bind(this))
+        this.root.addEventListener('keyup', this.handleKeyboardEvent.bind(this))
     }
 }
 

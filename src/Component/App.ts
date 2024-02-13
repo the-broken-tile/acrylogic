@@ -4,6 +4,8 @@ import Game from '../Models/Game'
 import GenericGuess from '../Models/GenericGuess'
 import Guess from '../Models/Guess'
 import Dialog from './Dialog'
+import Menu from './Menu'
+import Store from '../Store'
 
 import GameBuilder from '../GameBuilder'
 import type { GameDef } from '../GameBuilder'
@@ -12,24 +14,23 @@ import Renderer from './Renderer'
 
 class App {
     private game: Game|undefined
-    private element: HTMLElement
+    private readonly gameElement: HTMLDivElement;
     private dialog: Dialog
+    private menu: Menu
     private currentCell: Cell|undefined
     private readonly gameBuilder: GameBuilder;
 
-    constructor(private root: string, private document: Document) {
+    constructor(
+        private readonly root: HTMLDivElement,
+        private store: Store,
+        private renderer: Renderer
+    ) {
         this.gameBuilder = new GameBuilder()
 
-
-        const element = this.document.getElementById(this.root) as HTMLElement | null
-        this.dialog = new Dialog(document)
-
-        if (element === null) {
-            throw new Error('Could not find root element')
-        }
-
-        this.element = element
-        document.addEventListener('click', this.handleCellClick.bind(this))
+        this.gameElement = this.root.querySelector('#game') as HTMLDivElement;
+        this.dialog = new Dialog(this.root, this.root.querySelector('#dialog') as HTMLDialogElement)
+        this.menu = new Menu(this.root.querySelector('#menu') as HTMLMenuElement)
+        this.root.addEventListener('click', this.handleCellClick.bind(this))
     }
 
     private handleCellClick(event: Event): void {
@@ -43,7 +44,7 @@ class App {
             return
         }
 
-        const xStr : string |undefined = target.dataset.x
+        const xStr : string | undefined = target.dataset.x
         const yStr : string | undefined = target.dataset.y
 
         if (xStr === undefined || yStr === undefined) {
@@ -73,7 +74,7 @@ class App {
             throw new Error('game is undefined')
         }
 
-        this.element.innerHTML = new Renderer(this.game).render()
+        this.renderer.render(this.gameElement, this.game)
 
         this.winCheck()
     }
@@ -82,12 +83,17 @@ class App {
         return this.gameBuilder.build(gameDef);
     };
 
+    public async init() {
+        const ID = this.store.getId() ?? 1;
+        this.store.setId(ID);
+        await this.newGame(ID);
+    }
+
     public async newGame(id: number) {
         const response = await request<GameDef>(`./api/game/${id}.json`)
 
         this.game = this.createGame(response)
-        const renderer = new Renderer(this.game)
-        this.element.innerHTML = renderer.render()
+        this.renderer.render(this.gameElement, this.game)
     }
 
     private winCheck() {

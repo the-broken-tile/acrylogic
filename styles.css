@@ -11,12 +11,19 @@ dialog {
     top: 0;
 }
 
+.menu {
+    display: none;
+    height: 2vh;
+    position: absolute;
+    background-color: #7BB1EB;
+}
+
 .game {
     background-color: #7BB1EB;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px;
-    height: 100vh;
+    height: 98vh;
 }
 .row {
     display: grid;
