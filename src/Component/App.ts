@@ -3,10 +3,10 @@ import Coordinate from '../Models/Coordinate'
 import Game from '../Models/Game'
 import GenericGuess from '../Models/GenericGuess'
 import Guess from '../Models/Guess'
-import Dialog from './Dialog'
 import Menu from './Menu'
-import Store from '../Store'
 
+import Dialog from './Dialog'
+import Store from '../Store'
 import GameBuilder from '../GameBuilder'
 import type { GameDef } from '../GameBuilder'
 import request from '../request'
@@ -28,15 +28,24 @@ class App {
         this.gameBuilder = new GameBuilder()
 
         this.gameElement = this.root.querySelector('#game') as HTMLDivElement;
-        this.dialog = new Dialog(this.root, this.root.querySelector('#dialog') as HTMLDialogElement)
-        this.menu = new Menu(this.root.querySelector('#menu') as HTMLMenuElement, this.store, this.handleLevelChange.bind(this))
+        this.dialog = new Dialog(
+            this.root,
+            this.root.querySelector('#dialog') as HTMLDialogElement,
+            this.handleOk.bind(this),
+        )
+
+        this.menu = new Menu(
+            this.root.querySelector('#menu') as HTMLMenuElement,
+            this.store,
+            this.handleLevelChange.bind(this),
+        )
 
         this.root.addEventListener('click', this.handleCellClick.bind(this))
 
     }
 
     private handleCellClick(event: Event): void {
-        if (this.dialog.isOpen()) {
+        if (this.dialog.isOpen() || this.game === undefined) {
             return
         }
 
@@ -56,8 +65,9 @@ class App {
         this.currentCell = this.game?.getCell(coordinate)
 
         this.dialog.open(
-            this.game?.getGuess(coordinate),
-            this.handleOk.bind(this)
+            this.game.getGuess(coordinate),
+            this.game.getColors(),
+            this.game.getNumbers(),
         )
     }
 
@@ -91,10 +101,6 @@ class App {
         this.winCheck()
     }
 
-    private createGame(gameDef: GameDef): Game {
-        return this.gameBuilder.build(gameDef);
-    };
-
     public async init() {
         const ID = this.store.getId() ?? 1;
         this.store.setId(ID);
@@ -104,7 +110,8 @@ class App {
     public async newGame(id: number) {
         const response = await request<GameDef>(`./api/game/${id}.json`)
 
-        this.game = this.createGame(response)
+        this.game = this.gameBuilder.build(response)
+
         this.renderer.render(this.gameElement, this.game)
     }
 

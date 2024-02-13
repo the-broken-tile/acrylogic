@@ -8,7 +8,7 @@ class Renderer {
     render(root: HTMLDivElement, game: Game): void {
         root.innerHTML = `<div class="game ${game.height}-rows ${game.width}-cols">
             <div class="horizontal-border"></div>
-            ${game.grid.cells.map(row => this.renderRow(row, game), this).join('')}
+            ${game.getGrid().cells.map(row => this.renderRow(row, game), this).join('')}
         </div>`
     }
 

@@ -26,6 +26,10 @@ const DirectionMap: DirectionMapType = {
     right: Direction.Right,
 }
 type GameDef = {
+    width: number,
+    height: number,
+    colors: Array<string>,
+    numbers: Array<number>,
     grid: Array<Array<CellDef>>,
     clues: Array<ClueDef>
 }
@@ -45,7 +49,12 @@ const ColorMap: ColorMapType = {
 class GameBuilder
 {
     public build(gameDef: GameDef): Game {
-        return new Game(this.buildGrid(gameDef.grid), this.buildClues(gameDef.clues))
+        return new Game(
+            this.buildGrid(gameDef.grid),
+            this.buildClues(gameDef.clues),
+            gameDef.numbers,
+            gameDef.colors.map(color => ColorMap[color])
+        )
     }
 
     private buildGrid = (gridDef: Array<Array<CellDef>>): Grid =>

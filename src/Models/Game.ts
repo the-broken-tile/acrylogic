@@ -4,39 +4,50 @@ import Cell from './Cell'
 import Coordinate from './Coordinate'
 import Direction from './Direction'
 import Guess from './Guess'
+import Color from './Color';
 
 class Game {
-    private readonly _grid: Grid
-    private readonly _clues: Array<Clue>
     private guesses: Array<Guess> = []
 
-    constructor(grid: Grid, clues: Array<Clue>) {
-        this._grid = grid
-        this._clues = clues
+    constructor(
+        private readonly grid: Grid,
+        private readonly clues: Array<Clue>,
+        private readonly numbers: Array<number>,
+        private readonly colors: Array<Color>,
+    ) {
     }
 
-    get grid(): Grid {
-        return this._grid
+    public getGrid(): Grid {
+        return this.grid
     }
 
-    getCell(coordinate: Coordinate): Cell {
-        return this._grid.getCell(coordinate)
+    public getCell(coordinate: Coordinate): Cell {
+        return this.grid.getCell(coordinate)
     }
 
-    get clues(): Array<Clue> {
-        return this._clues
+    public getClues(): Array<Clue> {
+        return this.clues
+    }
+
+    public getColors(): Array<Color>
+    {
+        return this.colors
+    }
+
+    public getNumbers(): Array<number> {
+        return this.numbers
     }
 
     get height(): number {
-        return this._grid.cells.length
+        return this.grid.cells.length
     }
 
     get width(): number {
-        return this._grid.cells[0].length
+        return this.grid.cells[0].length
     }
 
     getClue(coordinate: Coordinate, direction: Direction): Clue | undefined {
-        return this._clues.find(clue => {
+        return this.clues.find(clue => {
             return clue.coordinate.equals(coordinate) && clue.direction === direction
         }) as Clue | undefined
     }
@@ -58,7 +69,7 @@ class Game {
     }
 
     isComplete(): boolean {
-        return this._grid.cells.every(row => row.every(cell => cell.isComplete()))
+        return this.grid.cells.every(row => row.every(cell => cell.isComplete()))
     }
 }
 

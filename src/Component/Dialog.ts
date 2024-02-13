@@ -1,6 +1,5 @@
 import Guess from '../Models/Guess'
 import Color, { ColorNames } from '../Models/Color'
-import { MIN_NUMBER, MAX_NUMBER } from '../Models/Cell'
 import GenericGuess from '../Models/GenericGuess'
 
 type ColorShortCutsMp = Record<string, Color>
@@ -29,9 +28,13 @@ class Dialog {
     private readonly cancel: HTMLButtonElement
     private readonly colorSelect: HTMLSelectElement;
     private readonly numberInput: HTMLInputElement;
-    private onOk: Function = (guess: GenericGuess) => {}
+    // private onOk: Function = (guess: GenericGuess) => {}
 
-    constructor(private root: HTMLElement, private readonly el: HTMLDialogElement) {
+    constructor(
+        private root: HTMLElement,
+        private readonly el: HTMLDialogElement,
+        private readonly onOk: Function
+    ) {
         this.el.innerHTML = this.render()
 
         this.ok = this.el.querySelector('#dialog-ok') as HTMLButtonElement;
@@ -47,11 +50,14 @@ class Dialog {
         this.onOk(this.createGuess())
     }
 
-    public open(guess: Guess|undefined, callable: (guess: GenericGuess) => void): void {
-        this.el.showModal()
-        this.onOk = callable;
+    public open(guess: Guess|undefined, colors: Array<Color>, numbers: Array<number>): void {
+        this.colorSelect.innerHTML = this.renderColorOptions(colors)
+        this.numberInput.min = `${numbers.reduce((a, b) => Math.min(a, b))}`
+        this.numberInput.max = `${numbers.reduce((a, b) => Math.max(a, b))}`
+        this.numberInput.value = ''
 
-        this.resetForm()
+        this.el.showModal()
+
         if (guess !== undefined) {
             if (guess.number !== undefined) {
                 this.numberInput.value = `${guess.number}`
@@ -72,13 +78,10 @@ class Dialog {
 
     private render(): string {
         return `<div>
-            <select id="color-select" autofocus>
-                <option value=""></option>
-                ${Object.entries(ColorNames).map(entry => `<option value="${entry[0]}">${entry[1]}</option>`).join('')}
-            </select>
+            <select id="color-select" autofocus></select>
         </div>
         <div>
-        <input id="number-input" type="number" min="${MIN_NUMBER}" max="${MAX_NUMBER}" step="1">
+        <input id="number-input" type="number" step="1">
         </div>
         <div>
             <button id="dialog-ok">Ok</button>
@@ -166,6 +169,15 @@ class Dialog {
         this.cancel.addEventListener('click', this.handleCancel.bind(this))
         this.root.addEventListener('keyup', this.handleKeyboardEvent.bind(this))
     }
+
+    private renderColorOptions = (colors: Array<Color>): string => `
+        '<option value=""></option>
+        ${
+            colors.map((color: Color) => {
+                return `<option value="${color}">${ColorNames[color]}</option>`
+            })
+            .join('')
+        }`;
 }
 
 export default Dialog

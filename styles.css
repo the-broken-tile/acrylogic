@@ -186,7 +186,6 @@ dialog {
     margin-left: -50%;
 }
 .clue.not {
-    /*text-decoration: line-through;*/
     text-decoration-line: line-through;
     text-decoration-thickness: 5px;
     text-decoration-color: red;
