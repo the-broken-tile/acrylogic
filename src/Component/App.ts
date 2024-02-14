@@ -2,7 +2,6 @@ import Cell from '../Models/Cell'
 import Coordinate from '../Models/Coordinate'
 import Game from '../Models/Game'
 import GenericGuess from '../Models/GenericGuess'
-import Guess from '../Models/Guess'
 import Menu from './Menu'
 
 import Dialog from './Dialog'
@@ -13,11 +12,11 @@ import request from '../request'
 import Renderer from './Renderer'
 
 class App {
-    private game: Game|undefined
+    private game: Game | undefined
     private readonly gameElement: HTMLDivElement;
     private dialog: Dialog
     private menu: Menu
-    private currentCell: Cell|undefined
+    private currentCell: Cell | undefined
     private readonly gameBuilder: GameBuilder;
 
     constructor(
@@ -65,7 +64,10 @@ class App {
         this.currentCell = this.game?.getCell(coordinate)
 
         this.dialog.open(
-            this.game.getGuess(coordinate),
+            new GenericGuess(
+                this.currentCell?.getColorGuess(),
+                this.currentCell?.getNumberGuess(),
+            ),
             this.game.getColors(),
             this.game.getNumbers(),
         )
@@ -86,15 +88,13 @@ class App {
             throw new Error('currentCell is undefined')
         }
 
-        const newGuess = new Guess(this.currentCell.coordinate)
-        newGuess.color = guess.color
-        newGuess.number = guess.number
-        this.game?.updateGuess(newGuess)
-
-        this.currentCell = undefined
         if (this.game === undefined) {
             throw new Error('game is undefined')
         }
+
+        this.currentCell.setColorGuess(guess.color)
+        this.currentCell.setNumberGuess(guess.number)
+        this.currentCell = undefined
 
         this.renderer.render(this.gameElement, this.game)
 

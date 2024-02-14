@@ -8,7 +8,11 @@ class Cell {
     public readonly color: Color
     public readonly number: number
     public readonly coordinate: Coordinate
-    private isCompleted: boolean = false
+    // private isCompleted: boolean = false
+    private numberCandidates: Array<number> = []
+    private colorCandidates: Array<Color> = []
+    private colorGuess: Color | undefined = undefined
+    private numberGuess: number | undefined = undefined
 
     constructor(color: Color, number: number, coordinate: Coordinate) {
         if (number < MIN_NUMBER) {
@@ -23,15 +27,43 @@ class Cell {
         this.coordinate = coordinate
     }
 
-    markCompleted(completed: boolean): void {
-        this.isCompleted = completed
+    public isComplete(): boolean {
+        return this.number === this.numberGuess && this.color === this.colorGuess
     }
 
-    isComplete(): boolean {
-        return this.isCompleted
+    public getColorGuess(): Color | undefined {
+        return this.colorGuess
     }
 
-    toString(): string {
+    public getNumberGuess(): number | undefined {
+        return this.numberGuess
+    }
+
+    public setColorGuess(color: Color | undefined): void {
+        this.colorGuess = color
+    }
+
+    public setNumberGuess(number: number | undefined): void {
+        this.numberGuess = number
+    }
+
+    public addColorCandidate(color: Color): void {
+        this.colorCandidates.push(color)
+    }
+
+    public removeColorCandidate(color: Color): void {
+        this.colorCandidates = this.colorCandidates.filter(c => c !== color)
+    }
+
+    public addNumberCandidate(number: number): void {
+        this.numberCandidates.push(number)
+    }
+
+    public removeNumberCandidate(number: number): void {
+        this.numberCandidates = this.numberCandidates.filter(n => n !== number)
+    }
+
+    public toString(): string {
         return `${this.color}/${this.number} ${this.coordinate.toString()}`
     }
 }

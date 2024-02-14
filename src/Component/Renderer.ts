@@ -41,21 +41,23 @@ class Renderer {
     }
 
     private renderCellValue(cell: Cell, game: Game): string {
-        const guess = game.getGuess(cell.coordinate)
-        if (guess !== undefined && guess.number !== undefined) {
-            return `${guess.number}`
-        }
+        // const guess = game.getGuess(cell.coordinate)
+        const number = cell.getNumberGuess()
 
-        return ''
+        return number !== undefined
+            ? `${number}`
+            : ''
+        // if (guess !== undefined && guess.number !== undefined) {
+        //     return `${guess.number}`
+        // }
+        //
+        // return ''
     }
 
     private renderCellClassName(cell: Cell, game: Game): string {
-        const guess = game.getGuess(cell.coordinate)
-        if (guess !== undefined) {
-            return ` color-${guess.color}`
-        }
+        const color = cell.getColorGuess()
 
-        return ''
+        return color === undefined ? '' : ` color-${color}`
     }
 
     private renderClueValue(clue: Clue| undefined): string {

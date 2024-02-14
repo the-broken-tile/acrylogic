@@ -1,4 +1,3 @@
-import Guess from '../Models/Guess'
 import Color, { ColorNames } from '../Models/Color'
 import GenericGuess from '../Models/GenericGuess'
 
@@ -50,7 +49,7 @@ class Dialog {
         this.onOk(this.createGuess())
     }
 
-    public open(guess: Guess|undefined, colors: Array<Color>, numbers: Array<number>): void {
+    public open(guess: GenericGuess|undefined, colors: Array<Color>, numbers: Array<number>): void {
         this.colorSelect.innerHTML = this.renderColorOptions(colors)
         this.numberInput.min = `${numbers.reduce((a, b) => Math.min(a, b))}`
         this.numberInput.max = `${numbers.reduce((a, b) => Math.max(a, b))}`
