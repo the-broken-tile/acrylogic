@@ -1,5 +1,4 @@
 import Color, { ColorNames } from '../Models/Color'
-import Guess from '../Models/Guess'
 import ColorButton from './ColorButton'
 import NumberButton from './NumberButton'
 import Input from "./Input";
@@ -130,7 +129,10 @@ class Dialog {
         return this.selectedNumbers
     }
 
-    private handleKeyboardEvent(event: KeyboardEvent) {
+    private handleKeyboardEvent(event: KeyboardEvent): void {
+        if (!this.isOpen()) {
+            return
+        }
         const keyPressed = event.key;
         if (keyPressed === 'Escape') {
             event.preventDefault()

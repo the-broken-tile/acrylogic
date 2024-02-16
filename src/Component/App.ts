@@ -1,10 +1,10 @@
 import Cell from '../Models/Cell'
 import Coordinate from '../Models/Coordinate'
 import Game from '../Models/Game'
-import Guess from '../Models/Guess'
 import Color from '../Models/Color';
 
 import Menu from './Menu'
+import UrlState from '../UrlState';
 
 import Dialog from './Dialog'
 import Store from '../Store'
@@ -22,6 +22,7 @@ class App {
     private currentCell: Cell | undefined
     private enteringCandidates: boolean = false
     private readonly gameBuilder: GameBuilder;
+    private readonly urlState: UrlState;
 
     constructor(
         private readonly root: HTMLDivElement,
@@ -29,6 +30,7 @@ class App {
         private renderer: Renderer
     ) {
         this.gameBuilder = new GameBuilder()
+        this.urlState = new UrlState(this.handleHashChange.bind(this))
 
         this.gameElement = this.root.querySelector('#game') as HTMLDivElement;
         this.dialog = new Dialog(
@@ -90,7 +92,6 @@ class App {
             alert('No such level.')
         })
 
-        this.store.setId(level)
         this.menu.close()
     }
 
@@ -152,10 +153,14 @@ class App {
         await this.newGame(ID);
     }
 
-    public async newGame(id: number) {
-        const response = await request<GameDef>(`./api/game/${id}.json`)
+    public async newGame(level: number, silent: boolean = false): Promise<void> {
+        const response = await request<GameDef>(`./api/game/${level}.json`)
 
         this.game = this.gameBuilder.build(response)
+        if (!silent) {
+            this.urlState.setLevel(level)
+        }
+        this.store.setId(level)
 
         this.renderer.render(this.gameElement, this.game)
     }
@@ -177,6 +182,12 @@ class App {
         }
 
         return this.closest(element.parentElement, selector)
+    }
+
+    private handleHashChange(level: number): void {
+        this.newGame(level, true).catch(() => {
+            alert('No such level.')
+        })
     }
 }
 
