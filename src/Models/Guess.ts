@@ -1,8 +1,8 @@
 import Color from './Color'
 
-class GenericGuess {
+class Guess {
     constructor(public color?: Color, public number?: number) {
     }
 }
 
-export default GenericGuess
+export default Guess

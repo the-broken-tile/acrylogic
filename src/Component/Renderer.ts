@@ -28,11 +28,12 @@ class Renderer {
         const clue: Clue | undefined = game.getClue(cell.coordinate, Direction.Right)
 
         return `
-            <div class="cell${this.renderCellClassName(cell, game)}"
-            data-x="${cell.coordinate.x}"
-            data-y="${cell.coordinate.y}"
+            <div class="cell${this.renderCellClassName(cell)}"
+                data-x="${cell.coordinate.x}"
+                data-y="${cell.coordinate.y}"
             >
-                ${this.renderCellValue(cell, game)}
+                ${this.renderCellValue(cell)}
+                <div class="candidates">${this.renderCandidates(cell)}</div>
             </div>
             <div class="vertical-border${this.renderClueClassName(clue)}">
                 ${this.renderClueValue(clue)}
@@ -40,21 +41,15 @@ class Renderer {
         `
     }
 
-    private renderCellValue(cell: Cell, game: Game): string {
-        // const guess = game.getGuess(cell.coordinate)
+    private renderCellValue(cell: Cell): string {
         const number = cell.getNumberGuess()
 
         return number !== undefined
             ? `${number}`
             : ''
-        // if (guess !== undefined && guess.number !== undefined) {
-        //     return `${guess.number}`
-        // }
-        //
-        // return ''
     }
 
-    private renderCellClassName(cell: Cell, game: Game): string {
+    private renderCellClassName(cell: Cell): string {
         const color = cell.getColorGuess()
 
         return color === undefined ? '' : ` color-${color}`
@@ -89,6 +84,13 @@ class Renderer {
                 ${this.renderClueValue(clue)}
             </div>
             <div></div>`
+    }
+
+    private renderCandidates(cell: Cell): string {
+        return `
+            <ul>${cell.getColorCandidates().map(color => `<li class="color-${color} color-candidate">&nbsp;</li>`).join('')}</ul>
+            <ul>${cell.getNumberCandidates().map(number => `<li>${number}</li>`).join('')}</ul>
+        `
     }
 }
 

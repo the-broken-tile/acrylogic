@@ -47,20 +47,32 @@ class Cell {
         this.numberGuess = number
     }
 
-    public addColorCandidate(color: Color): void {
-        this.colorCandidates.push(color)
+    public getColorCandidates(): Array<Color> {
+        return this.colorCandidates
     }
 
-    public removeColorCandidate(color: Color): void {
-        this.colorCandidates = this.colorCandidates.filter(c => c !== color)
+    public addColorCandidate(color: Color): void {
+        if (!this.colorCandidates.includes(color)) {
+            this.colorCandidates.push(color)
+        }
+    }
+
+    public resetColorCandidates(): void {
+        this.colorCandidates = []
+    }
+
+    public getNumberCandidates(): Array<number> {
+        return this.numberCandidates
     }
 
     public addNumberCandidate(number: number): void {
-        this.numberCandidates.push(number)
+        if (!this.numberCandidates.includes(number)) {
+            this.numberCandidates.push(number)
+        }
     }
 
-    public removeNumberCandidate(number: number): void {
-        this.numberCandidates = this.numberCandidates.filter(n => n !== number)
+    public resetNumberCandidates(): void {
+        this.numberCandidates = []
     }
 
     public toString(): string {

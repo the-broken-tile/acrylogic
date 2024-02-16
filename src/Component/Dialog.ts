@@ -1,8 +1,15 @@
 import Color, { ColorNames } from '../Models/Color'
-import GenericGuess from '../Models/GenericGuess'
+import Guess from '../Models/Guess'
+import ColorButton from './ColorButton'
+import NumberButton from './NumberButton'
+import Input from "./Input";
 
-type ColorShortCutsMp = Record<string, Color>
-const COLOR_SHORTCUTS: ColorShortCutsMp = {
+enum Type {
+    Single,
+    Multiple,
+}
+type ColorShortCutsMap = Record<string, Color>
+const COLOR_SHORTCUTS: ColorShortCutsMap = {
     w: Color.White,
     u: Color.Blue,
     b: Color.Black,
@@ -22,12 +29,28 @@ const NUMBER_MAP: NumberMap = {
     5: 5,
 }
 
+type ColorMap = Record<string, Color>
+
+const COLOR_MAP: ColorMap = {
+    [Color.White.toString()]: Color.White,
+    [Color.Black.toString()]: Color.Black,
+    [Color.Blue.toString()]: Color.Blue,
+    [Color.Red.toString()]: Color.Red,
+    [Color.Yellow.toString()]: Color.Yellow,
+}
+
 class Dialog {
+    public static Type = Type
+
     private readonly ok: HTMLButtonElement
     private readonly cancel: HTMLButtonElement
-    private readonly colorSelect: HTMLSelectElement;
-    private readonly numberInput: HTMLInputElement;
-    // private onOk: Function = (guess: GenericGuess) => {}
+    private readonly colorSelect: HTMLDivElement
+    private readonly numberSelect: HTMLDivElement
+    private availableColors: Array<Color> = []
+    private availableNumbers: Array<number> = []
+    private selectedColors: Array<Color> = []
+    private selectedNumbers: Array<number> = []
+    private type: Type = Type.Single;
 
     constructor(
         private root: HTMLElement,
@@ -38,33 +61,45 @@ class Dialog {
 
         this.ok = this.el.querySelector('#dialog-ok') as HTMLButtonElement;
         this.cancel = this.el.querySelector('#dialog-cancel') as HTMLButtonElement
-        this.colorSelect = this.el.querySelector('#color-select') as HTMLSelectElement
-        this.numberInput = this.el.querySelector('#number-input') as HTMLInputElement
+        this.colorSelect = this.el.querySelector('#color-select') as HTMLDivElement
+        this.numberSelect = this.el.querySelector('#number-select') as HTMLDivElement
 
         this.registerEvents();
     }
 
     private handleOk(): void {
         this.el.close()
-        this.onOk(this.createGuess())
+        this.onOk(this.getSelection())
     }
 
-    public open(guess: GenericGuess|undefined, colors: Array<Color>, numbers: Array<number>): void {
-        this.colorSelect.innerHTML = this.renderColorOptions(colors)
-        this.numberInput.min = `${numbers.reduce((a, b) => Math.min(a, b))}`
-        this.numberInput.max = `${numbers.reduce((a, b) => Math.max(a, b))}`
-        this.numberInput.value = ''
+    private getSelection(): Array<Input> {
+        return [
+            ...this.getSelectedColors().map(color => new Input(Input.Type.color, color)),
+            ...this.getSelectedNumbers().map(number => new Input(Input.Type.number, number))
+        ]
+    }
 
+    private update(): void {
+        this.colorSelect.innerHTML = this.renderColorOptions()
+        this.numberSelect.innerHTML = this.renderNumberOptions()
+    }
+
+    public open(
+        selectedColors: Array<Color>,
+        selectedNumbers: Array<number>,
+        colors: Array<Color>,
+        numbers: Array<number>,
+        type: Type
+    ): void {
+        this.resetForm()
+        this.type = type
+        this.availableColors = colors
+        this.selectedColors = selectedColors
+        this.selectedNumbers = selectedNumbers
+        this.availableNumbers = numbers
+
+        this.update()
         this.el.showModal()
-
-        if (guess !== undefined) {
-            if (guess.number !== undefined) {
-                this.numberInput.value = `${guess.number}`
-            }
-            if (guess.color !== undefined) {
-                this.colorSelect.value = `${guess.color}`
-            }
-        }
     }
 
     public close(): void {
@@ -75,46 +110,24 @@ class Dialog {
         this.close()
     }
 
-    private render(): string {
-        return `<div>
-            <select id="color-select" autofocus></select>
-        </div>
-        <div>
-        <input id="number-input" type="number" step="1">
-        </div>
+    private render = (): string => `
+        <div id="color-select"></div><div>
+        <div id="number-select"></div>
         <div>
             <button id="dialog-ok">Ok</button>
             <button id="dialog-cancel">Cancel</button>
         </div>`
-    }
 
     public isOpen(): boolean {
         return this.el.open
     }
 
-    private createGuess(): GenericGuess {
-        return new GenericGuess(this.getSelectedColor(), this.getSelectedNumber())
+    private getSelectedColors(): Array<Color> {
+        return this.selectedColors
     }
 
-    private getSelectedColor(): Color|undefined {
-        const value = this.colorSelect.value
-        if (value === '') {
-            return undefined
-        }
-        if (value === 'Infinity') {
-            return Infinity
-        }
-
-        return parseInt(value, 10)
-    }
-
-    private getSelectedNumber(): number|undefined {
-        const value = this.numberInput.value
-        if (value === '') {
-            return undefined
-        }
-
-        return parseInt(value, 10)
+    private getSelectedNumbers(): Array<number> {
+        return this.selectedNumbers
     }
 
     private handleKeyboardEvent(event: KeyboardEvent) {
@@ -135,6 +148,9 @@ class Dialog {
 
         if (keyPressed === 'Backspace') {
             this.resetForm()
+            this.selectedNumbers = []
+            this.selectedColors = []
+            this.update()
             event.preventDefault()
 
             return
@@ -143,7 +159,15 @@ class Dialog {
         if (COLOR_SHORTCUTS.hasOwnProperty(keyPressed)) {
             event.preventDefault()
             const color = COLOR_SHORTCUTS[keyPressed]
-            this.colorSelect.value = `${color}`
+            if (this.selectedColors.includes(color)) {
+                this.selectedColors = this.selectedColors.filter(c => c !== color)
+                this.update()
+
+                return
+            }
+
+            this.selectedColors.push(color)
+            this.update()
 
             return
         }
@@ -151,32 +175,67 @@ class Dialog {
         if (NUMBER_MAP.hasOwnProperty(keyPressed)) {
             event.preventDefault()
             const number = NUMBER_MAP[keyPressed]
-            this.numberInput.value = `${number}`
+            if (this.selectedNumbers.includes(number)) {
+                this.selectedNumbers = this.selectedNumbers.filter(n => n !== number)
+                this.update()
+
+                return
+            }
+            this.selectedNumbers.push(number)
+            this.update()
 
             return
         }
-
     }
 
     private resetForm(): void {
-        this.colorSelect.selectedIndex = -1
-        this.numberInput.value = ''
+        this.selectedColors = []
+        this.selectedNumbers = []
+        this.colorSelect.innerHTML = ''
     }
 
     private registerEvents(): void {
         this.ok.addEventListener('click', this.handleOk.bind(this))
         this.cancel.addEventListener('click', this.handleCancel.bind(this))
         this.root.addEventListener('keyup', this.handleKeyboardEvent.bind(this))
+        this.el.addEventListener('click', this.handleClick.bind(this))
     }
 
-    private renderColorOptions = (colors: Array<Color>): string => `
-        '<option value=""></option>
-        ${
-            colors.map((color: Color) => {
-                return `<option value="${color}">${ColorNames[color]}</option>`
-            })
-            .join('')
-        }`;
+    private handleClick(event: Event): void {
+        const target = event.target as HTMLElement | HTMLButtonElement
+        if (target instanceof HTMLButtonElement) {
+            const value = target.value as string
+            if (target.classList.contains('color-select')) {
+                const color = COLOR_MAP[value]
+                if (this.selectedColors.includes(color)) {
+                    this.selectedColors = this.selectedColors.filter(c => c !== color)
+                } else {
+                    this.selectedColors.push(color)
+                }
+
+                this.update()
+
+                return
+            }
+
+            const number = parseInt(value, 10)
+            if (this.selectedNumbers.includes(number)) {
+                this.selectedNumbers = this.selectedNumbers.filter(n => n !== number)
+            } else {
+                this.selectedNumbers.push(number)
+            }
+            this.update()
+        }
+    }
+
+    private renderColorOptions = (): string => this.availableColors
+        .map((color: Color): string => new ColorButton(color, this.selectedColors.includes(color)).toString())
+        .join('')
+
+    private renderNumberOptions = (): string => this.availableNumbers
+        .map((number: number): string => new NumberButton(number, this.selectedNumbers.includes(number)).toString())
+        .join('')
+    
 }
 
 export default Dialog

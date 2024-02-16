@@ -176,6 +176,7 @@ dialog {
 }
 .cell {
     font-size: 300%;
+    position: relative;
 }
 .clue {
     font-size: 1.2em;
@@ -196,4 +197,38 @@ dialog {
 #color-select, #number-input {
     display: inline-block;
     width: 100%;
+}
+
+.candidates {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.3);
+    font-size: 0.5em;
+    position: absolute;
+    width: 50%;
+    height: 30%;
+    bottom: 0;
+    right: 0;
+}
+
+.candidates ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.candidates li {
+    display: inline-block;
+}
+.color-select, .number-select, .color-candidate {
+    display: inline-block;
+    opacity: 0.1;
+    height: 2em;
+    width: 2em;
+}
+.color-candidate {
+    width: 1em;
+    height: 1em;
+}
+
+.color-select.selected, .number-select.selected, .color-candidate {
+    opacity: 1;
 }

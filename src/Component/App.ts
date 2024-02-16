@@ -1,7 +1,9 @@
 import Cell from '../Models/Cell'
 import Coordinate from '../Models/Coordinate'
 import Game from '../Models/Game'
-import GenericGuess from '../Models/GenericGuess'
+import Guess from '../Models/Guess'
+import Color from '../Models/Color';
+
 import Menu from './Menu'
 
 import Dialog from './Dialog'
@@ -10,6 +12,7 @@ import GameBuilder from '../GameBuilder'
 import type { GameDef } from '../GameBuilder'
 import request from '../request'
 import Renderer from './Renderer'
+import Input from './Input';
 
 class App {
     private game: Game | undefined
@@ -17,6 +20,7 @@ class App {
     private dialog: Dialog
     private menu: Menu
     private currentCell: Cell | undefined
+    private enteringCandidates: boolean = false
     private readonly gameBuilder: GameBuilder;
 
     constructor(
@@ -30,7 +34,7 @@ class App {
         this.dialog = new Dialog(
             this.root,
             this.root.querySelector('#dialog') as HTMLDialogElement,
-            this.handleOk.bind(this),
+            this.handleDialogOk.bind(this),
         )
 
         this.menu = new Menu(
@@ -49,27 +53,34 @@ class App {
         }
 
         const target : HTMLElement | null = event.target as HTMLElement | null
-
-        if (target === null || !target.classList.contains('cell')) {
+        if (target === null) {
             return
         }
 
-        const xStr : string | undefined = target.dataset.x
-        const yStr : string | undefined = target.dataset.y
+        const cell = this.closest(target, '.cell')
 
-        if (xStr === undefined || yStr === undefined) {
+        if (cell === null) {
             return
         }
+
+        const xStr : string = cell.dataset.x as string
+        const yStr : string = cell.dataset.y as string
+
         const coordinate = new Coordinate(parseInt(xStr, 10), parseInt(yStr, 10))
-        this.currentCell = this.game?.getCell(coordinate)
+
+        this.currentCell = this.game.getCell(coordinate)
+        this.enteringCandidates = this.closest(target, '.candidates') !== null
 
         this.dialog.open(
-            new GenericGuess(
-                this.currentCell?.getColorGuess(),
-                this.currentCell?.getNumberGuess(),
-            ),
+            this.enteringCandidates ?
+                this.currentCell.getColorCandidates()
+                : [this.currentCell.getColorGuess()].filter(c => c !== undefined) as Array<Color>,
+            this.enteringCandidates ?
+                this.currentCell.getNumberCandidates()
+                : [this.currentCell.getNumberGuess()].filter(n => n !== undefined) as Array<number>,
             this.game.getColors(),
             this.game.getNumbers(),
+            this.enteringCandidates ? Dialog.Type.Multiple : Dialog.Type.Single,
         )
     }
 
@@ -83,7 +94,7 @@ class App {
         this.menu.close()
     }
 
-    private handleOk(guess: GenericGuess): void {
+    private handleDialogOk(inputs: Array<Input>): void {
         if (this.currentCell === undefined) {
             throw new Error('currentCell is undefined')
         }
@@ -92,13 +103,47 @@ class App {
             throw new Error('game is undefined')
         }
 
-        this.currentCell.setColorGuess(guess.color)
-        this.currentCell.setNumberGuess(guess.number)
+        const currentCell = this.currentCell
         this.currentCell = undefined
 
-        this.renderer.render(this.gameElement, this.game)
+        if (this.enteringCandidates) {
+            currentCell.resetColorCandidates()
+            currentCell.resetNumberCandidates()
+
+            inputs.forEach((input: Input): void => {
+                if (input.type === Input.Type.color) {
+                    const color = input.value as Color
+                    currentCell.addColorCandidate(color)
+
+                    return
+                }
+
+                const number = input.value as number
+                currentCell.addNumberCandidate(number)
+            })
+
+            this.renderer.render(this.gameElement, this.game)
+
+            return
+        }
+
+        currentCell.setNumberGuess(undefined)
+        currentCell.setColorGuess(undefined)
+
+        inputs.forEach((input: Input): void => {
+            if (input.type === Input.Type.number) {
+                const number = input.value as number
+                currentCell.setNumberGuess(number)
+
+                return
+            }
+
+            const color = input.value as Color
+            currentCell.setColorGuess(color)
+        })
 
         this.winCheck()
+        this.renderer.render(this.gameElement, this.game)
     }
 
     public async init() {
@@ -120,6 +165,18 @@ class App {
             // Delay a little to render the grid behind it.
             setTimeout(() => alert('Victory!'), 0)
         }
+    }
+
+    private closest(element: HTMLElement, selector: string): HTMLElement | null {
+        if (element.matches(selector)) {
+            return element
+        }
+
+        if (element.parentElement === null) {
+            return null
+        }
+
+        return this.closest(element.parentElement, selector)
     }
 }
 
