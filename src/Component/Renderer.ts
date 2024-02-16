@@ -6,10 +6,15 @@ import Clue from '../Models/Clue'
 
 class Renderer {
     render(root: HTMLDivElement, game: Game): void {
+        const parent = root.parentElement as HTMLElement;
+        parent.removeChild(root);
+
         root.innerHTML = `<div class="game ${game.height}-rows ${game.width}-cols">
             <div class="horizontal-border"></div>
             ${game.getGrid().cells.map(row => this.renderRow(row, game), this).join('')}
         </div>`
+
+        parent.appendChild(root);
     }
 
     private renderRow(row: Array<Cell>, game: Game): string {
