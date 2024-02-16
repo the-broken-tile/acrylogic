@@ -41,10 +41,12 @@ class Cell {
 
     public setColorGuess(color: Color | undefined): void {
         this.colorGuess = color
+        this.colorCandidates = []
     }
 
     public setNumberGuess(number: number | undefined): void {
         this.numberGuess = number
+        this.numberCandidates = []
     }
 
     public getColorCandidates(): Array<Color> {
