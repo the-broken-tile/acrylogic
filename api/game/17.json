@@ -1,0 +1,50 @@
+{
+    "width": 4,
+    "height": 4,
+    "colors": ["red", "white", "yellow", "blue"],
+    "numbers": [1, 2, 3, 4],
+    "grid": [
+        [
+            {"color": "blue", "number": 3},
+            {"color": "red", "number": 4},
+            {"color": "white", "number": 1},
+            {"color": "yellow", "number": 4}
+        ], [
+            {"color": "red", "number": 2},
+            {"color": "yellow", "number": 3},
+            {"color": "white", "number": 3},
+            {"color": "blue", "number": 4}
+        ], [
+            {"color": "white", "number": 4},
+            {"color": "blue", "number": 2},
+            {"color": "blue", "number": 1},
+            {"color": "yellow", "number": 1}
+        ], [
+            {"color": "white", "number": 2},
+            {"color": "red", "number": 1},
+            {"color": "yellow", "number": 2},
+            {"color": "red", "number": 3}
+        ]
+    ],
+    "clues": [
+        {"x": 0, "y": 0, "direction": "down", "color": "purple"},
+        {"x": 0, "y": 0, "direction": "right", "number": 7},
+        {"x": 1, "y": 0, "direction": "down", "number": 7},
+        {"x": 1, "y": 0, "direction": "right", "color": "red"},
+        {"x": 2, "y": 0, "direction": "down", "color": "white"},
+        {"x": 2, "y": 0, "direction": "right", "number": 5},
+        {"x": 3, "y": 0, "direction": "down", "number": 7, "not": true},
+        {"x": 0, "y": 1, "direction": "down", "number": 6},
+        {"x": 2, "y": 1, "direction": "down", "number": 4},
+        {"x": 3, "y": 1, "direction": "down", "color": "green"},
+        {"x": 0, "y": 2, "direction": "down", "color": "white"},
+        {"x": 0, "y": 2, "direction": "right", "number": 6},
+        {"x": 1, "y": 2, "direction": "down", "color": "purple"},
+        {"x": 1, "y": 2, "direction": "right", "number": 3},
+        {"x": 2, "y": 2, "direction": "down", "number": 3},
+        {"x": 2, "y": 2, "direction": "right", "color": "green"},
+        {"x": 3, "y": 2, "direction": "down", "color": "orange"},
+        {"x": 0, "y": 3, "direction": "right", "number": 3},
+        {"x": 1, "y": 3, "direction": "right", "number": 3}
+    ]
+}
