@@ -138,10 +138,18 @@ dialog {
     grid-template-rows: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px;
     height: 98vh;
 }
+.game.rows-3 {
+    grid-template-rows: 24px 1fr 24px 1fr 24px 1fr 24px;
+}
 .row {
     display: grid;
     grid-template-columns: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px;
 }
+
+.cols-3 .row {
+    grid-template-columns: 24px 1fr 24px 1fr 24px 1fr 24px;
+}
+
 .vertical-border, .horizontal-border {
     background-color: lightgray;
 }
