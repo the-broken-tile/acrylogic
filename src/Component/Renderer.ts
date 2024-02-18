@@ -9,7 +9,7 @@ class Renderer {
         const parent = root.parentElement as HTMLElement;
         parent.removeChild(root);
 
-        root.innerHTML = `<div class="game ${game.height}-rows ${game.width}-cols">
+        root.innerHTML = `<div class="game rows-${game.height} cols-${game.width}">
             <div class="horizontal-border"></div>
             ${game.getGrid().cells.map(row => this.renderRow(row, game), this).join('')}
         </div>`
