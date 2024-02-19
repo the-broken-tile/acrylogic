@@ -87,11 +87,11 @@ class App {
         this.enteringCandidates = this.closest(target, '.candidates') !== null
 
         this.dialog.open(
-            this.enteringCandidates ?
-                this.currentCell.getColorCandidates()
+            this.enteringCandidates
+                ? this.currentCell.getColorCandidates()
                 : [this.currentCell.getColorGuess()].filter(c => c !== undefined) as Array<Color>,
-            this.enteringCandidates ?
-                this.currentCell.getNumberCandidates()
+            this.enteringCandidates
+                ? this.currentCell.getNumberCandidates()
                 : [this.currentCell.getNumberGuess()].filter(n => n !== undefined) as Array<number>,
             this.game.getColors(),
             this.game.getNumbers(),
@@ -139,9 +139,9 @@ class App {
                 currentCell.addNumberCandidate(number)
             })
 
+            this.gameHistory.addEvent(new GameEvent(previousState, currentCell.getState()))
             this.update()
 
-            this.gameHistory.addEvent(new GameEvent(previousState, currentCell.getState()))
             return
         }
 
@@ -224,7 +224,7 @@ class App {
         this.update()
     }
 
-    public update(): void
+    private update(): void
     {
         if (this.game === undefined) {
             return
@@ -234,7 +234,6 @@ class App {
 
         this.renderer.render(this.gameElement, this.game)
     }
-
 }
 
 export default App

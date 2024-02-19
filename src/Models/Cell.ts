@@ -51,7 +51,7 @@ class Cell {
 
     public getColorCandidates(): Array<Color>
     {
-        return this.colorCandidates
+        return [...this.colorCandidates]
     }
 
     public addColorCandidate(color: Color): void
@@ -68,7 +68,7 @@ class Cell {
 
     public getNumberCandidates(): Array<number>
     {
-        return this.numberCandidates
+        return [...this.numberCandidates]
     }
 
     public addNumberCandidate(number: number): void

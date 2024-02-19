@@ -194,8 +194,6 @@ class Dialog {
             }
             this.selectedNumbers.push(number)
             this.update()
-
-            return
         }
     }
 
@@ -222,7 +220,7 @@ class Dialog {
             if (target.classList.contains('color-select')) {
                 const color = COLOR_MAP[value]
                 if (this.selectedColors.includes(color)) {
-                    this.selectedColors = this.selectedColors.filter(c => c !== color)
+                    this.selectedColors = this.selectedColors.filter((c: Color): boolean => c !== color)
                 } else {
                     this.selectedColors.push(color)
                 }
@@ -234,7 +232,7 @@ class Dialog {
 
             const number = parseInt(value, 10)
             if (this.selectedNumbers.includes(number)) {
-                this.selectedNumbers = this.selectedNumbers.filter(n => n !== number)
+                this.selectedNumbers = this.selectedNumbers.filter((n: number): boolean => n !== number)
             } else {
                 this.selectedNumbers.push(number)
             }
