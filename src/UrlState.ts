@@ -1,10 +1,12 @@
 
 class UrlState {
-    constructor(private readonly onHashChange: Function) {
+    constructor(private readonly onHashChange: Function)
+    {
         window.addEventListener('popstate', this.handlePopState.bind(this))
     }
 
-    setLevel(level: string) {
+    setLevel(level: string)
+    {
         history.pushState({}, '', `#${level}`)
     }
 

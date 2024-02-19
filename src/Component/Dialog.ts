@@ -66,19 +66,22 @@ class Dialog {
         this.registerEvents();
     }
 
-    private handleOk(): void {
+    private handleOk(): void
+    {
         this.el.close()
         this.onOk(this.getSelection())
     }
 
-    private getSelection(): Array<Input> {
+    private getSelection(): Array<Input>
+    {
         return [
             ...this.getSelectedColors().map(color => new Input(Input.Type.color, color)),
             ...this.getSelectedNumbers().map(number => new Input(Input.Type.number, number))
         ]
     }
 
-    private update(): void {
+    private update(): void
+    {
         this.colorSelect.innerHTML = this.renderColorOptions()
         this.numberSelect.innerHTML = this.renderNumberOptions()
     }
@@ -101,11 +104,13 @@ class Dialog {
         this.el.showModal()
     }
 
-    public close(): void {
+    public close(): void
+    {
         this.el.close()
     }
 
-    private handleCancel(): void {
+    private handleCancel(): void
+    {
         this.close()
     }
 
@@ -117,19 +122,23 @@ class Dialog {
             <button id="dialog-cancel">Cancel</button>
         </div>`
 
-    public isOpen(): boolean {
+    public isOpen(): boolean
+    {
         return this.el.open
     }
 
-    private getSelectedColors(): Array<Color> {
+    private getSelectedColors(): Array<Color>
+    {
         return this.selectedColors
     }
 
-    private getSelectedNumbers(): Array<number> {
+    private getSelectedNumbers(): Array<number>
+    {
         return this.selectedNumbers
     }
 
-    private handleKeyboardEvent(event: KeyboardEvent): void {
+    private handleKeyboardEvent(event: KeyboardEvent): void
+    {
         if (!this.isOpen()) {
             return
         }
@@ -190,20 +199,23 @@ class Dialog {
         }
     }
 
-    private resetForm(): void {
+    private resetForm(): void
+    {
         this.selectedColors = []
         this.selectedNumbers = []
         this.colorSelect.innerHTML = ''
     }
 
-    private registerEvents(): void {
+    private registerEvents(): void
+    {
         this.ok.addEventListener('click', this.handleOk.bind(this))
         this.cancel.addEventListener('click', this.handleCancel.bind(this))
         this.root.addEventListener('keyup', this.handleKeyboardEvent.bind(this))
         this.el.addEventListener('click', this.handleClick.bind(this))
     }
 
-    private handleClick(event: Event): void {
+    private handleClick(event: Event): void
+    {
         const target = event.target as HTMLElement | HTMLButtonElement
         if (target instanceof HTMLButtonElement) {
             const value = target.value as string

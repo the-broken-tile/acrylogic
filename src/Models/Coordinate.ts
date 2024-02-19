@@ -4,11 +4,13 @@ class Coordinate {
     constructor(public x: number, public y: number) {
     }
 
-    equals(other: Coordinate): boolean {
+    equals(other: Coordinate): boolean
+    {
         return this.x === other.x && this.y === other.y
     }
 
-    next(direction: Direction): Coordinate {
+    next(direction: Direction): Coordinate
+    {
         if (direction === Direction.Up) {
             return new Coordinate(this.x, this.y - 1)
         }
@@ -28,9 +30,7 @@ class Coordinate {
         throw new Error('Invalid direction')
     }
 
-    toString(): string {
-        return `(${this.x}, ${this.y})`
-    }
+    toString = (): string => `(${this.x}, ${this.y})`;
 }
 
 export default Coordinate

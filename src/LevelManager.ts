@@ -8,7 +8,8 @@ const groupOrder: Array<string> = [
 ]
 
 class LevelManager {
-    constructor(private readonly store: Store) {
+    constructor(private readonly store: Store)
+    {
     }
 
     public setLevel(level: string): void
@@ -23,7 +24,6 @@ class LevelManager {
 
     public async next(level: string): Promise<string | null>
     {
-        console.log('level', level)
         const groupMatch = level.match(/^(o3|o4|tbt)/)
         if (groupMatch === null) {
             throw new Error(`Invalid level: ${level}`)

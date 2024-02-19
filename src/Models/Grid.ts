@@ -4,11 +4,13 @@ import Coordinate from './Coordinate';
 class Grid {
     private readonly _cells: Array<Array<Cell>>
 
-    constructor(cells: Array<Array<Cell>>) {
+    constructor(cells: Array<Array<Cell>>)
+    {
         this._cells = cells
     }
 
-    get cells(): Array<Array<Cell>> {
+    get cells(): Array<Array<Cell>>
+    {
         return this._cells
     }
 

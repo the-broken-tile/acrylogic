@@ -27,7 +27,8 @@ class Menu {
         this.levelSelect.value = this.levelManager.current()
     }
 
-    private handleLevelChange(event: Event): void {
+    private handleLevelChange(event: Event): void
+    {
         event.preventDefault()
 
         this.onLevelChange(this.levelSelect.value)
@@ -42,12 +43,14 @@ class Menu {
     }
 
 
-    private registerEventListeners(): void {
+    private registerEventListeners(): void
+    {
         this.levelSelectForm.addEventListener('submit', this.handleLevelChange.bind(this))
         this.nextLevelElement.addEventListener('click', this.handleNextLevel.bind(this))
     }
 
-    private update(): void {
+    private update(): void
+    {
         this.levelSelect.value = this.levelManager.current()
     }
 }

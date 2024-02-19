@@ -14,15 +14,18 @@ class Game {
     ) {
     }
 
-    public getGrid(): Grid {
+    public getGrid(): Grid
+    {
         return this.grid
     }
 
-    public getCell(coordinate: Coordinate): Cell {
+    public getCell(coordinate: Coordinate): Cell
+    {
         return this.grid.getCell(coordinate)
     }
 
-    public getClues(): Array<Clue> {
+    public getClues(): Array<Clue>
+    {
         return this.clues
     }
 
@@ -31,25 +34,30 @@ class Game {
         return this.colors
     }
 
-    public getNumbers(): Array<number> {
+    public getNumbers(): Array<number>
+    {
         return this.numbers
     }
 
-    get height(): number {
+    public getHeight(): number
+    {
         return this.grid.cells.length
     }
 
-    get width(): number {
+    public getWidth(): number
+    {
         return this.grid.cells[0].length
     }
 
-    getClue(coordinate: Coordinate, direction: Direction): Clue | undefined {
+    public getClue(coordinate: Coordinate, direction: Direction): Clue | undefined
+    {
         return this.clues.find(clue => {
             return clue.coordinate.equals(coordinate) && clue.direction === direction
         }) as Clue | undefined
     }
 
-    isComplete(): boolean {
+    public isComplete(): boolean
+    {
         return this.grid.cells.every(row => row.every(cell => cell.isComplete()))
     }
 }

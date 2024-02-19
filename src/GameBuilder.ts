@@ -48,7 +48,8 @@ const ColorMap: ColorMapType = {
 
 class GameBuilder
 {
-    public build(gameDef: GameDef): Game {
+    public build(gameDef: GameDef): Game
+    {
         return new Game(
             this.buildGrid(gameDef.grid),
             this.buildClues(gameDef.clues),

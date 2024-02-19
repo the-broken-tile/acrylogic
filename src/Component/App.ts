@@ -49,7 +49,8 @@ class App {
 
     }
 
-    private handleCellClick(event: Event): void {
+    private handleCellClick(event: Event): void
+    {
         if (this.dialog.isOpen() || this.game === undefined) {
             return
         }
@@ -95,7 +96,8 @@ class App {
         this.menu.close()
     }
 
-    private handleDialogOk(inputs: Array<Input>): void {
+    private handleDialogOk(inputs: Array<Input>): void
+    {
         if (this.currentCell === undefined) {
             throw new Error('currentCell is undefined')
         }
@@ -143,16 +145,18 @@ class App {
             currentCell.setColorGuess(color)
         })
 
-        this.winCheck()
         this.renderer.render(this.gameElement, this.game)
+        this.winCheck()
     }
 
-    public async init() {
+    public async init(): Promise<void>
+    {
         const ID = this.levelManager.current()
         await this.newGame(ID);
     }
 
-    public async newGame(level: string, silent: boolean = false): Promise<void> {
+    public async newGame(level: string, silent: boolean = false): Promise<void>
+    {
         const response = await request<GameDef>(`./api/game/${level}.json`)
 
         this.game = this.gameBuilder.build(response)
@@ -164,14 +168,16 @@ class App {
         this.renderer.render(this.gameElement, this.game)
     }
 
-    private winCheck() {
+    private winCheck(): void
+    {
         if (this.game?.isComplete()) {
             // Delay a little to render the grid behind it.
             setTimeout(() => alert('Victory!'), 0)
         }
     }
 
-    private closest(element: HTMLElement, selector: string): HTMLElement | null {
+    private closest(element: HTMLElement, selector: string): HTMLElement | null
+    {
         if (element.matches(selector)) {
             return element
         }
@@ -183,7 +189,8 @@ class App {
         return this.closest(element.parentElement, selector)
     }
 
-    private handleHashChange(level: string): void {
+    private handleHashChange(level: string): void
+    {
         this.newGame(level, true).catch(() => {
             alert(`No such level: ${level}`)
         })

@@ -9,7 +9,7 @@ class Renderer {
         const parent = root.parentElement as HTMLElement;
         parent.removeChild(root);
 
-        root.innerHTML = `<div class="game rows-${game.height} cols-${game.width}">
+        root.innerHTML = `<div class="game rows-${game.getHeight()} cols-${game.getWidth()}">
             <div class="horizontal-border"></div>
             ${game.getGrid().cells.map(row => this.renderRow(row, game), this).join('')}
         </div>`
@@ -17,7 +17,8 @@ class Renderer {
         parent.appendChild(root);
     }
 
-    private renderRow(row: Array<Cell>, game: Game): string {
+    private renderRow(row: Array<Cell>, game: Game): string
+    {
         return `
             <div class="row">
                 <div class="vertical-border"></div>
@@ -29,7 +30,8 @@ class Renderer {
         `
     }
 
-    private renderCell(cell: Cell, game: Game): string {
+    private renderCell(cell: Cell, game: Game): string
+    {
         const clue: Clue | undefined = game.getClue(cell.coordinate, Direction.Right)
 
         return `
@@ -46,7 +48,8 @@ class Renderer {
         `
     }
 
-    private renderCellValue(cell: Cell): string {
+    private renderCellValue(cell: Cell): string
+    {
         const number = cell.getNumberGuess()
 
         return number !== undefined
@@ -54,13 +57,15 @@ class Renderer {
             : ''
     }
 
-    private renderCellClassName(cell: Cell): string {
+    private renderCellClassName(cell: Cell): string
+    {
         const color = cell.getColorGuess()
 
         return color === undefined ? '' : ` color-${color}`
     }
 
-    private renderClueValue(clue: Clue| undefined): string {
+    private renderClueValue(clue: Clue| undefined): string
+    {
         if (clue === undefined) {
             return ''
         }
@@ -70,18 +75,21 @@ class Renderer {
         return `<span class="clue${clue.not === true ? ' not' : ''}">${text}</span>`
     }
 
-    private renderClueClassName(clue: Clue | undefined): string {
+    private renderClueClassName(clue: Clue | undefined): string
+    {
         if (clue === undefined || clue.color === undefined) {
             return ''
         }
         return ` color-${clue.color}`
     }
 
-    private renderHorizontalClues(row: Array<Cell>, game: Game): string {
+    private renderHorizontalClues(row: Array<Cell>, game: Game): string
+    {
         return `<div></div>${row.map(cell => this.renderHorizontalClue(cell, game)).join('')}`
     }
 
-    private renderHorizontalClue(cell: Cell, game: Game): string {
+    private renderHorizontalClue(cell: Cell, game: Game): string
+    {
         const clue: Clue | undefined = game.getClue(cell.coordinate, Direction.Down)
 
         return `
@@ -91,7 +99,8 @@ class Renderer {
             <div></div>`
     }
 
-    private renderCandidates(cell: Cell): string {
+    private renderCandidates(cell: Cell): string
+    {
         return `
             <ul>${cell.getColorCandidates().map(color => `<li class="color-${color} color-candidate">&nbsp;</li>`).join('')}</ul>
             <ul>${cell.getNumberCandidates().map(number => `<li>${number}</li>`).join('')}</ul>
