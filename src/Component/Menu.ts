@@ -11,7 +11,6 @@ class Menu {
         private onLevelChange: Function,
         private readonly levelManager: LevelManager,
     ) {
-        this.element.innerHTML = this.render()
         this.menuToggle = this.element.querySelector('#menu-toggle') as HTMLInputElement
         this.levelSelect = this.element.querySelector('#level-select') as HTMLInputElement
         this.levelSelectForm = this.element.querySelector('#level-select-form') as HTMLFormElement
@@ -21,25 +20,6 @@ class Menu {
 
         this.registerEventListeners()
     }
-
-    private render = (): string => `
-        <div class="nav-container">
-            <input class="checkbox" type="checkbox" id="menu-toggle">
-            <div class="hamburger-lines">
-                <span class="line line1"></span>
-                <span class="line line2"></span>
-                <span class="line line3"></span>
-            </div>
-            <ul class="menu-items">
-                <li>
-                    <form id="level-select-form">
-                        <input id="level-select" pattern="(o3|o4|tbt)-\\d+"><br>
-                        <input type="submit" value="Go to level"><br>
-                        <button id="next-level">Next level</button>
-                    </form>
-                </li>
-            </ul>
-        </div>`;
 
     public close(): void
     {
