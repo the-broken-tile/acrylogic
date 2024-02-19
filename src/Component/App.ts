@@ -8,7 +8,7 @@ import GameEvent from '../Models/GameEvent';
 import Menu from './Menu'
 import UrlState from '../UrlState';
 import Dialog from './Dialog'
-import Renderer from './Renderer'
+import GameView from './Game'
 import Input from './Input';
 
 import request from '../request'
@@ -27,11 +27,11 @@ class App {
     private enteringCandidates: boolean = false
     private readonly gameBuilder: GameBuilder;
     private readonly urlState: UrlState;
+    private gameView: GameView | undefined
 
     constructor(
         private readonly root: HTMLDivElement,
         private readonly levelManager: LevelManager,
-        private readonly renderer: Renderer,
         private readonly gameHistory: GameHistory,
     ) {
         this.gameBuilder = new GameBuilder()
@@ -177,6 +177,7 @@ class App {
         const response = await request<GameDef>(`./api/game/${level}.json`)
 
         this.game = this.gameBuilder.build(response)
+        this.gameView = new GameView(this.game)
         if (!silent) {
             this.urlState.setLevel(level)
         }
@@ -232,7 +233,11 @@ class App {
         this.root.querySelector('#undo')?.classList.toggle('disabled', !this.gameHistory.hasUndo())
         this.root.querySelector('#redo')?.classList.toggle('disabled', !this.gameHistory.hasRedo())
 
-        this.renderer.render(this.gameElement, this.game)
+        const parent = this.gameElement.parentElement as HTMLElement;
+
+        parent.removeChild(this.gameElement);
+        this.gameElement.innerHTML = `${this.gameView}`
+        parent.appendChild(this.gameElement);
     }
 }
 

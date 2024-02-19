@@ -201,7 +201,6 @@ class Dialog {
     {
         this.selectedColors = []
         this.selectedNumbers = []
-        this.colorSelect.innerHTML = ''
     }
 
     private registerEvents(): void
