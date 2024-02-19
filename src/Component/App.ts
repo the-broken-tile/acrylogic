@@ -215,7 +215,7 @@ class App {
 
     private handleUndo(state: CellState): void
     {
-        if (this.game === undefined) {
+        if (this.game === undefined || this.game.isComplete()) {
             return
         }
         const cell = this.game.getCell(state.coordinate)
