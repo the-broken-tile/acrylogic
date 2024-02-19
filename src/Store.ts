@@ -1,4 +1,4 @@
-const KEY = 'gameId';
+const KEY = 'gameID';
 
 class Store {
     public constructor(private storage: Storage) {
