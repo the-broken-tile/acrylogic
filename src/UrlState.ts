@@ -5,7 +5,7 @@ class UrlState {
         window.addEventListener('popstate', this.handlePopState.bind(this))
     }
 
-    setLevel(level: string)
+    setLevel(level: string): void
     {
         history.pushState({}, '', `#${level}`)
     }
@@ -13,7 +13,7 @@ class UrlState {
     private handlePopState(): void
     {
         const hash = window.location.hash
-        const matches = hash.match(/#((o3|o4|tbt)-\d+)/) as RegExpMatchArray | null
+        const matches = hash.match(/#((o3|o4|o5|tbt)-\d+)/) as RegExpMatchArray | null
         if (matches === null) {
             return
         }

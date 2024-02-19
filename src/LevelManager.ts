@@ -4,6 +4,7 @@ import Store from './Store';
 const groupOrder: Array<string> = [
     'o3',
     'o4',
+    'o5',
     'tbt',
 ]
 
@@ -24,7 +25,7 @@ class LevelManager {
 
     public async next(level: string): Promise<string | null>
     {
-        const groupMatch = level.match(/^(o3|o4|tbt)/)
+        const groupMatch = level.match(/^(o3|o4|o5|tbt)/)
         if (groupMatch === null) {
             throw new Error(`Invalid level: ${level}`)
         }

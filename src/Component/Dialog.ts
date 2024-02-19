@@ -1,7 +1,7 @@
-import Color, { ColorNames } from '../Models/Color'
+import Color from '../Models/Color'
 import ColorButton from './ColorButton'
 import NumberButton from './NumberButton'
-import Input from "./Input";
+import Input from './Input';
 
 enum Type {
     Single,
@@ -21,6 +21,7 @@ const COLOR_SHORTCUTS: ColorShortCutsMap = {
 
 type NumberMap = Record<string, number>
 const NUMBER_MAP: NumberMap = {
+    0: 0,
     1: 1,
     2: 2,
     3: 3,
@@ -246,7 +247,6 @@ class Dialog {
     private renderNumberOptions = (): string => this.availableNumbers
         .map((number: number): string => new NumberButton(number, this.selectedNumbers.includes(number)).toString())
         .join('')
-    
 }
 
 export default Dialog

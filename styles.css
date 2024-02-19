@@ -132,7 +132,7 @@ dialog {
 }
 
 .game {
-    background-color: #7BB1EB;
+    background-color: whitesmoke;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px;
@@ -140,6 +140,9 @@ dialog {
 }
 .game.rows-3 {
     grid-template-rows: 24px 1fr 24px 1fr 24px 1fr 24px;
+}
+.game.rows-5 {
+    grid-template-rows: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px;
 }
 .row {
     display: grid;
@@ -149,12 +152,14 @@ dialog {
 .cols-3 .row {
     grid-template-columns: 24px 1fr 24px 1fr 24px 1fr 24px;
 }
+.cols-5 .row {
+    grid-template-columns: 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px
+}
 
 .border, .vertical-border, .horizontal-border {
     position: relative;
 }
 .color::before {
-    /*z-index: -1;*/
     content: '';
     display: block;
     position: absolute;
@@ -190,8 +195,10 @@ dialog {
 .color-5::before {
     background-image: url('./img/green.png');
 }
+.color-Infinity::before {
+    background-image: url('./img/black.png');
+}
 .color-Infinity {
-    background-color: black;
     color: white;
 }
 .vertical-border, .horizontal-border, .cell {
