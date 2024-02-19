@@ -50,8 +50,15 @@ class App {
             this.levelManager,
         )
 
+        this.registerListeners()
+    }
+
+    private registerListeners(): void
+    {
         this.root.addEventListener('click', this.handleCellClick.bind(this))
         this.gameHistory.registerUndo(this.handleUndo.bind(this))
+        this.root.querySelector('#undo')?.addEventListener('click', () => this.gameHistory.undo())
+        this.root.querySelector('#redo')?.addEventListener('click', () => this.gameHistory.redo())
     }
 
     private handleCellClick(event: Event): void
@@ -222,6 +229,9 @@ class App {
         if (this.game === undefined) {
             return
         }
+        this.root.querySelector('#undo')?.classList.toggle('disabled', !this.gameHistory.hasUndo())
+        this.root.querySelector('#redo')?.classList.toggle('disabled', !this.gameHistory.hasRedo())
+
         this.renderer.render(this.gameElement, this.game)
     }
 

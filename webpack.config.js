@@ -29,6 +29,7 @@ module.exports = {
                 { from: 'api', to: 'api' },
                 { from: 'styles.css', to: '.' },
                 { from: 'favicon.ico', to: '.' },
+                { from: 'img', to: 'img'},
             ],
         }),
     ],

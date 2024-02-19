@@ -37,20 +37,46 @@ class GameHistory {
             return
         }
 
-        // Undo
-        if (keyPressed === 'z' && this.gameEvents.length > 0) {
-            const event = this.gameEvents.pop() as GameEvent
-            this.redoStack.push(event)
-            this.onUndo(event.before)
+        if (keyPressed === 'z') {
+            this.undo()
         }
 
-        // Redo
-        if (keyPressed === 'y' && this.redoStack.length > 0) {
-            const event = this.redoStack.pop() as GameEvent
-            this.gameEvents.push(event)
-            this.onUndo(event.after)
+        if (keyPressed === 'y') {
+            this.redo()
         }
     }
+
+    public undo(): void
+    {
+        if (this.gameEvents.length === 0) {
+            return
+        }
+        const event = this.gameEvents.pop() as GameEvent
+        this.redoStack.push(event)
+        this.onUndo(event.before)
+    }
+
+    public redo(): void
+    {
+        if (this.redoStack.length === 0) {
+            return
+        }
+        const event = this.redoStack.pop() as GameEvent
+        this.gameEvents.push(event)
+        this.onUndo(event.after)
+
+    }
+
+    public hasUndo(): boolean
+    {
+        return this.gameEvents.length > 0
+    }
+
+    public hasRedo(): boolean
+    {
+        return this.redoStack.length > 0
+    }
+
 }
 
 export default GameHistory
