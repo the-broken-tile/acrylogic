@@ -7,12 +7,12 @@ import Menu from './Menu'
 import UrlState from '../UrlState';
 
 import Dialog from './Dialog'
-import Store from '../Store'
 import GameBuilder from '../GameBuilder'
 import type { GameDef } from '../GameBuilder'
 import request from '../request'
 import Renderer from './Renderer'
 import Input from './Input';
+import LevelManager from '../LevelManager';
 
 class App {
     private game: Game | undefined
@@ -26,8 +26,8 @@ class App {
 
     constructor(
         private readonly root: HTMLDivElement,
-        private store: Store,
-        private renderer: Renderer
+        private readonly levelManager: LevelManager,
+        private renderer: Renderer,
     ) {
         this.gameBuilder = new GameBuilder()
         this.urlState = new UrlState(this.handleHashChange.bind(this))
@@ -41,8 +41,8 @@ class App {
 
         this.menu = new Menu(
             this.root.querySelector('#menu') as HTMLMenuElement,
-            this.store,
             this.handleLevelChange.bind(this),
+            this.levelManager,
         )
 
         this.root.addEventListener('click', this.handleCellClick.bind(this))
@@ -86,10 +86,10 @@ class App {
         )
     }
 
-    private async handleLevelChange(level: number): Promise<void>
+    private async handleLevelChange(level: string): Promise<void>
     {
         await this.newGame(level).catch(() => {
-            alert('No such level.')
+            alert(`No such level: ${level}`)
         })
 
         this.menu.close()
@@ -148,19 +148,18 @@ class App {
     }
 
     public async init() {
-        const ID = this.store.getId() ?? 1;
-        this.store.setId(ID);
+        const ID = this.levelManager.current()
         await this.newGame(ID);
     }
 
-    public async newGame(level: number, silent: boolean = false): Promise<void> {
+    public async newGame(level: string, silent: boolean = false): Promise<void> {
         const response = await request<GameDef>(`./api/game/${level}.json`)
 
         this.game = this.gameBuilder.build(response)
         if (!silent) {
             this.urlState.setLevel(level)
         }
-        this.store.setId(level)
+        this.levelManager.setLevel(level)
 
         this.renderer.render(this.gameElement, this.game)
     }
@@ -184,9 +183,9 @@ class App {
         return this.closest(element.parentElement, selector)
     }
 
-    private handleHashChange(level: number): void {
+    private handleHashChange(level: string): void {
         this.newGame(level, true).catch(() => {
-            alert('No such level.')
+            alert(`No such level: ${level}`)
         })
     }
 }

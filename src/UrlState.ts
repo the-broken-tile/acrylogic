@@ -4,19 +4,19 @@ class UrlState {
         window.addEventListener('popstate', this.handlePopState.bind(this))
     }
 
-    setLevel(level: number) {
+    setLevel(level: string) {
         history.pushState({}, '', `#${level}`)
     }
 
     private handlePopState(): void
     {
         const hash = window.location.hash
-        const matches = hash.match(/#(\d+)/) as RegExpMatchArray | null
+        const matches = hash.match(/#((o3|o4|tbt)-\d+)/) as RegExpMatchArray | null
         if (matches === null) {
             return
         }
 
-        const id = parseInt(matches[1], 10)
+        const id = matches[1]
         this.onHashChange(id)
     }
 }
