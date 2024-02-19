@@ -18,13 +18,6 @@ class Grid {
     {
         return this._cells[coordinate.y][coordinate.x]
     }
-
-
-    public validate(): boolean {
-        let totalCells = 0
-
-        return true
-    }
 }
 
 export default Grid
