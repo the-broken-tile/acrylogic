@@ -242,3 +242,30 @@ dialog {
 .color-select.selected, .number-select.selected, .color-candidate {
     opacity: 1;
 }
+
+#undo, #redo {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    height: 32px;
+    width: 32px;
+    text-indent: -99em;
+    overflow: hidden;
+    background-size: 100% 100%;
+    background-color: transparent;
+    border: none;
+    /** icon by https://www.flaticon.com/authors/dhtgicon */
+    background-image: url('img/back-arrow.png');
+    opacity: 0.5;
+}
+#undo {
+    right: 36px;
+}
+#redo {
+    right: 0;
+    transform: scaleX(-1);
+}
+#undo.disabled, #redo.disabled {
+    opacity: 0.1;
+    cursor: not-allowed;
+}
