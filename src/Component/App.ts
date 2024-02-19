@@ -2,17 +2,21 @@ import Cell from '../Models/Cell'
 import Coordinate from '../Models/Coordinate'
 import Game from '../Models/Game'
 import Color from '../Models/Color';
+import CellState from '../Models/CellState';
+import GameEvent from '../Models/GameEvent';
 
 import Menu from './Menu'
 import UrlState from '../UrlState';
-
 import Dialog from './Dialog'
-import GameBuilder from '../GameBuilder'
-import type { GameDef } from '../GameBuilder'
-import request from '../request'
 import Renderer from './Renderer'
 import Input from './Input';
+
+import request from '../request'
+
+import GameBuilder from '../GameBuilder'
+import type { GameDef } from '../GameBuilder'
 import LevelManager from '../LevelManager';
+import GameHistory from '../GameHistory';
 
 class App {
     private game: Game | undefined
@@ -27,7 +31,8 @@ class App {
     constructor(
         private readonly root: HTMLDivElement,
         private readonly levelManager: LevelManager,
-        private renderer: Renderer,
+        private readonly renderer: Renderer,
+        private readonly gameHistory: GameHistory,
     ) {
         this.gameBuilder = new GameBuilder()
         this.urlState = new UrlState(this.handleHashChange.bind(this))
@@ -46,7 +51,7 @@ class App {
         )
 
         this.root.addEventListener('click', this.handleCellClick.bind(this))
-
+        this.gameHistory.registerUndo(this.handleUndo.bind(this))
     }
 
     private handleCellClick(event: Event): void
@@ -109,6 +114,8 @@ class App {
         const currentCell = this.currentCell
         this.currentCell = undefined
 
+        const previousState = currentCell.getState()
+
         if (this.enteringCandidates) {
             currentCell.resetColorCandidates()
             currentCell.resetNumberCandidates()
@@ -125,8 +132,9 @@ class App {
                 currentCell.addNumberCandidate(number)
             })
 
-            this.renderer.render(this.gameElement, this.game)
+            this.update()
 
+            this.gameHistory.addEvent(new GameEvent(previousState, currentCell.getState()))
             return
         }
 
@@ -145,7 +153,9 @@ class App {
             currentCell.setColorGuess(color)
         })
 
-        this.renderer.render(this.gameElement, this.game)
+        this.gameHistory.addEvent(new GameEvent(previousState, currentCell.getState()))
+
+        this.update()
         this.winCheck()
     }
 
@@ -165,7 +175,7 @@ class App {
         }
         this.levelManager.setLevel(level)
 
-        this.renderer.render(this.gameElement, this.game)
+        this.update()
     }
 
     private winCheck(): void
@@ -195,6 +205,26 @@ class App {
             alert(`No such level: ${level}`)
         })
     }
+
+    private handleUndo(state: CellState): void
+    {
+        if (this.game === undefined) {
+            return
+        }
+        const cell = this.game.getCell(state.coordinate)
+        cell.setState(state)
+
+        this.update()
+    }
+
+    public update(): void
+    {
+        if (this.game === undefined) {
+            return
+        }
+        this.renderer.render(this.gameElement, this.game)
+    }
+
 }
 
 export default App

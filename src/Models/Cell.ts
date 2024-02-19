@@ -1,5 +1,6 @@
 import Color from './Color'
 import Coordinate from './Coordinate'
+import CellState from './CellState';
 
 class Cell {
     public readonly color: Color
@@ -80,6 +81,19 @@ class Cell {
     public resetNumberCandidates(): void
     {
         this.numberCandidates = []
+    }
+
+    public getState(): CellState
+    {
+        return new CellState(this)
+    }
+
+    public setState(state: CellState): void
+    {
+        this.colorCandidates = state.colorCandidates
+        this.numberCandidates = state.numberCandidates
+        this.colorGuess = state.colorGuess
+        this.numberGuess = state.numberGuess
     }
 
     public toString = (): string => `${this.color}/${this.number} ${this.coordinate.toString()}`;
