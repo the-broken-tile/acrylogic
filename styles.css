@@ -17,7 +17,7 @@ dialog {
 }
 
 .menu {
-    z-index: 1;
+    z-index: 3;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,7 +55,7 @@ dialog {
     width: 32px;
     top: 20px;
     left: 20px;
-    z-index: 5;
+    z-index: 3;
     opacity: 0;
     cursor: pointer;
 }
@@ -150,30 +150,45 @@ dialog {
     grid-template-columns: 24px 1fr 24px 1fr 24px 1fr 24px;
 }
 
-.vertical-border, .horizontal-border {
-    background-color: lightgray;
+.border, .vertical-border, .horizontal-border {
+    position: relative;
+}
+.color::before {
+    /*z-index: -1;*/
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-image: url('./img/splat.png');
+    background-size: 100% 100%;
+}
+.number-clue.border::before{
+    background-image: url('./img/dark-splat.png');
 }
 
-.color-0 {
-    background-color: white;
+.color-0::before {
+    background-image: url('./img/white.png');
 }
-.color-1 {
-    background-color: blue;
+.color-1::before {
+    background-image: url('./img/blue.png');
 }
-.color-2 {
-    background-color: red;
+.color-2::before {
+    background-image: url('./img/red.png');
 }
-.color-4 {
-    background-color: yellow;
+.color-4::before {
+    background-image: url('./img/yellow.png');
 }
-.color-3 {
-    background-color: purple;
+.color-3::before {
+    background-image: url('./img/purple.png');
 }
-.color-6 {
-    background-color: orange;
+.color-6::before {
+    background-image: url('./img/orange.png');
 }
-.color-5 {
-    background-color: green;
+.color-5::before {
+    background-image: url('./img/green.png');
 }
 .color-Infinity {
     background-color: black;
@@ -188,7 +203,11 @@ dialog {
     font-size: 300%;
     position: relative;
 }
+.cell-content {
+    z-index: 2;
+}
 .clue {
+    z-index: 3;
     font-size: 1.2em;
 }
 .vertical-border .clue {
@@ -230,6 +249,7 @@ dialog {
 }
 .color-select, .number-select, .color-candidate {
     display: inline-block;
+    position: relative;
     opacity: 0.1;
     height: 2em;
     width: 2em;
@@ -245,6 +265,7 @@ dialog {
 
 #undo, #redo {
     position: absolute;
+    z-index: 3;
     top: 0;
     cursor: pointer;
     height: 32px;

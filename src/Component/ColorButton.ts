@@ -6,7 +6,7 @@ class ColorButton {
 
     public toString(): string
     {
-        return `<button tabindex="-1" class="color-select color-${this.color.toString()}${this.selected ? ' selected' : ''}" value="${this.color.toString()}"></button>`
+        return `<button tabindex="-1" class="color color-select color-${this.color.toString()}${this.selected ? ' selected' : ''}" value="${this.color.toString()}"></button>`
     }
 }
 

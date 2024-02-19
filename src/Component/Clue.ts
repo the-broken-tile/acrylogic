@@ -19,7 +19,7 @@ class Clue {
     private renderHorizontalClue(): string
     {
         return `
-            <div class="horizontal-border${this.renderClueClassName()}">
+            <div class="horizontal-border color ${this.renderClueClassName()}">
                 ${this.renderClueValue()}
             </div>
             <div></div>`
@@ -27,7 +27,7 @@ class Clue {
 
     private renderVerticalClue(): string
     {
-        return `<div class="vertical-border${this.renderClueClassName()}">
+        return `<div class="vertical-border color ${this.renderClueClassName()}">
             ${this.renderClueValue()}
         </div>`
     }
@@ -46,10 +46,21 @@ class Clue {
 
     private renderClueClassName(): string
     {
-        if (this.clue === undefined || this.clue.color === undefined) {
+        let classNames: Array<string> = [];
+        if (this.clue === undefined) {
             return ''
         }
-        return ` color-${this.clue.color}`
+
+        if (this.clue.color !== undefined) {
+            classNames.push(`color-${this.clue.color}`)
+        }
+
+        if (this.clue.number !== undefined) {
+            classNames.push(`number-${this.clue.number}`)
+            classNames.push('number-clue')
+        }
+
+        return classNames.join(' ')
     }
 }
 

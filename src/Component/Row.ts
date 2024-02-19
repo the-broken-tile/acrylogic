@@ -11,7 +11,7 @@ class Row {
     {
         return `
             <div class="row">
-                <div class="vertical-border"></div>
+                <div class="color vertical-border"></div>
                 ${
                     this.cells
                         .map(cell => `
