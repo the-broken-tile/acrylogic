@@ -17,6 +17,7 @@ import GameBuilder from '../GameBuilder'
 import type { GameDef } from '../GameBuilder'
 import LevelManager from '../LevelManager';
 import GameHistory from '../GameHistory';
+import Resizer from './Resizer';
 
 class App {
     private game: Game | undefined
@@ -33,6 +34,7 @@ class App {
         private readonly root: HTMLDivElement,
         private readonly levelManager: LevelManager,
         private readonly gameHistory: GameHistory,
+        private readonly resizer: Resizer,
     ) {
         this.gameBuilder = new GameBuilder()
         this.urlState = new UrlState(this.handleHashChange.bind(this))

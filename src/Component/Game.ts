@@ -7,7 +7,7 @@ class Game {
 
     public toString(): string
     {
-        return `<div class="game rows-${this.game.getHeight()} cols-${this.game.getWidth()}">
+        return `<div class="grid rows-${this.game.getHeight()} cols-${this.game.getWidth()}">
             ${this.renderFirstRow()}
             ${this.game.getGrid().cells.map(row => new Row(row, this.game)).join('')}
         </div>`
