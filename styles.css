@@ -213,6 +213,12 @@ dialog {
     font-size: 300%;
     position: relative;
 }
+.cell::before {
+    top: 5%;
+    bottom: 5%;
+    right: 5%;
+    left: 5%;
+}
 .cell-content {
     z-index: 2;
 }
