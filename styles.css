@@ -133,18 +133,28 @@ dialog {
 .nav-container input[type="checkbox"]:checked ~ .hamburger-lines .line3 {
     transform: rotate(-45deg);
 }
-
-.game {
+#app {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+#game {
     background-color: whitesmoke;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.grid {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 32px 1fr 32px 1fr 32px 1fr 32px 1fr 32px;
-    height: 98vh;
+    height: 100%;
 }
-.game.rows-3 {
+.grid.rows-3 {
     grid-template-rows: 32px 1fr 32px 1fr 32px 1fr 32px;
 }
-.game.rows-5 {
+.grid.rows-5 {
     grid-template-rows: 32px 1fr 32px 1fr 32px 1fr 32px 1fr 32px 1fr 32px;
 }
 .row {
