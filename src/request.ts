@@ -1,4 +1,4 @@
-function request<TResponse>(
+async function request<TResponse>(
     url: string,
     config: RequestInit = {}
 ): Promise<TResponse> {
